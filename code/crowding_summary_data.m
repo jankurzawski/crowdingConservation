@@ -10,4 +10,6 @@ r1 = sum(researcher1, 3); % sum across hemispheres
 r2 = sum(researcher2, 3); % sum across hemispheres
 area =  (r1+r2)/2; % average across researchers
 
+bouma = bouma';
+area = area';
 end
