@@ -89,7 +89,7 @@ for ii = 1:length(ROIs)
     CI_y=prctile(y, [low_prct_range, high_prct_range],2);
     
     set(gca, 'FontSize', 15)
-    fprintf('V%d : R^2=%3.2f,\t conservation = %3.2f letters/mm^2,\tk = %.2f letters/mm^2\n', ii, r2, conservation,m)
+    fprintf('V%d : R^2=%3.2f,\t conservation = %3.2f letters/mm^2,\tm = %.2f letters/mm^2\n', ii, r2, conservation,m)
     
     axis([xl yl])
     
