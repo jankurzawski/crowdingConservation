@@ -30,10 +30,6 @@ for i = 1 : length(bouma)
     axis off
 end
 
-
-
-
-
 CI_range = 68;
 low_prct_range = (100-CI_range)/2;
 high_prct_range = 100-low_prct_range;
@@ -168,8 +164,6 @@ box off
 g = gca;
 g.YAxis.LineWidth = 1;
 g.XAxis.LineWidth = 1;
-
-
 
 
 function [fitresults] = give_a_b_r(data)
