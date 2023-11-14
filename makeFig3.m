@@ -44,7 +44,7 @@ set(gcf, 'color','w', 'Position', [400 400 500 700]); tiledlayout(2,2,'TileSpaci
 
 % Plot the  fits
 
-for ii = 1:4
+for ii = 1:length(ROIs)
     
     nexttile
     
