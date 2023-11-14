@@ -110,13 +110,15 @@ for ii = 1:4
     g = gca;
     g.XAxis.LineWidth = 1;
     g.YAxis.LineWidth = 1;
+    s_ex = scatter(a([2 9],ii), l([2 9]), 'MarkerFaceColor','k');
+    s_ex.SizeData = 60;
+
     s = scatter(a(:,ii), l,  'MarkerFaceColor',mycmap{ii}(2,:), 'MarkerEdgeColor', 'k');
     s.MarkerFaceAlpha = 1;
     s.MarkerEdgeColor = mycmap{ii}(2,:);
     s.SizeData = 20;
     
-    s_ex = scatter(a([2 9],ii), l([2 9]), 'MarkerFaceColor',[0.5 0.5 0.5], 'MarkerEdgeColor', 'k','Marker','.');
-    
+
     hold off
     t=title(ROIs{ii});
     t.Units = 'normalized';
@@ -140,10 +142,11 @@ for ii = 1:4
         xticks([0 750 1500])
     end
     
-    %     hgexport(gcf, sprintf('../figures/conservation_fit_%s.eps', str));
     drawnow
 end
+
 set(gcf, 'color','w', 'Position', [400 400 500 700]);
+% hgexport(gcf, sprintf('conservation_fit.eps'));
 
 figure(2);clf
 set(gcf, 'color','w', 'Position', [900   400   500   700]);
