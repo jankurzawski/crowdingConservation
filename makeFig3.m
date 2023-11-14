@@ -10,6 +10,8 @@ clc
 clear
 close all
 
+[directory,~] = fileparts(mfilename('fullpath'));
+cd(directory);
 addpath(genpath('data'))
 addpath(genpath('code'))
 addpath(genpath('extra'))

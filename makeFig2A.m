@@ -1,6 +1,8 @@
 clc
 clear
 close all
+[directory,~] = fileparts(mfilename('fullpath'));
+cd(directory);
 addpath(genpath('data'))
 addpath(genpath('code'))
 
@@ -19,7 +21,7 @@ boumas = [bouma(S_low_bouma) bouma(S_high_bouma)];
 
 for b = 1 : length(boumas)
     
-    crowding_Visualize_Letters(boumas(b),2,0.24,10,0,1)
+    crowding_Visualize_Letters(boumas(b),2,0.24,10,0,1);
     
     axis off
 end
