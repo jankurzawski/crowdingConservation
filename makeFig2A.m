@@ -1,33 +1,25 @@
 clc
 clear
 close all
-addpath(genpath('./../data'))
-addpath(genpath('./../extra'))
-addpath(genpath('./../TLS'))
+addpath(genpath('data'))
+addpath(genpath('code'))
 
-load bouma_factors.mat
-load surface_size.mat
 load subjects_ID
-load mycmap
+[bouma, area] = crowding_summary_data();
 
-bouma_factors = geomean([bouma_S1';bouma_S2']);
-
-
-rois = {'V1';'V2';'V3';'hV4'};
-r = 2;
-
-S_low_bouma = strcmp('sub-wlsubj045',subjects)
-S_high_bouma = strcmp('sub-wlsubj117',subjects)
+S_low_bouma = strcmp('sub-wlsubj045',subjects);
+S_high_bouma = strcmp('sub-wlsubj117',subjects);
 
 
-boumas_radial = [bouma_factors(S_low_bouma) bouma_factors(S_high_bouma)];
-boumas_tangential = boumas_radial / r;
-boumas            = boumas_radial / sqrt(r);
-%% calc num letters
+boumas = [bouma(S_low_bouma) bouma(S_high_bouma)];
 
-for b = 2% : length(boumas)
+%% visualize letter diagrams for two subjects
+% Note that for visualization purposes we don't show letters below
+% eccentricity = 1
+
+for b = 1 : length(boumas)
     
-    crowding_Visualize_Letters(boumas(b),2,0.24,10,0, 1, 1)
+    crowding_Visualize_Letters(boumas(b),2,0.24,10,0, 1)
     
     axis off
 end

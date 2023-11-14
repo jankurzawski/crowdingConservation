@@ -1,4 +1,4 @@
-function [counted, analytic,letters] = crowding_Visualize_Letters(B, alpha, ecc_0, ecc_max, ecc_min,rightVFonly,plots)
+function [counted, analytic,letters] = crowding_Visualize_Letters(B, alpha, ecc_0, ecc_max, ecc_min,plots)
 %Make a display of Sloan letters spaced according to Bouma's law.
 %
 % Inputs
@@ -109,23 +109,17 @@ letters.char = letters.Sloan(randi(9, [length(inds) 1]));
 
 
 
-if rightVFonly
-    
-    right = ((letters.th >= deg2rad(90) & letters.th <= deg2rad(180)) | (letters.th >= deg2rad(-180) & letters.th <= deg2rad(-90))) | letters.r <1
-    right = letters.r <1
+% for visualization remove letters placed at eccentricity < 1;
+bad = letters.r <1;
+letters.th(bad) = [];
+letters.font_size(bad) = [];
+letters.r(bad) = [];
+letters.x(bad) = [];
+letters.y(bad) = [];
+letters.char(bad) = [];
 
-    letters.th(right) = [];
-    letters.font_size(right) = [];
-    letters.r(right) = [];
-    letters.x(right) = [];
-    letters.y(right) = [];
-    letters.char(right) = [];
+
     
- 
-    
-    
-    
-end
 
 if plots == 0, return; end
 
@@ -157,8 +151,8 @@ for fig_num = 1:plots
     text(0, 0, '+', 'FontSize',20, 'HorizontalAlignment','center','VerticalAlignment','middle');
 
     % Plot title
-    str = sprintf('Bouma factor: %2.1f; Radial/Tangential ratio: %2.1f\nTotal number of letters from %3.2fÂº to %3.2fÂº: %d (counted), %d (analytic)', ...
-        B, alpha, ecc_min, ecc_max, counted, round(analytic));
+    str = sprintf('Bouma factor: %2.1f; Radial/Tangential ratio: %2.1f\nTotal number of letters from %3.2fº to %3.2fº: %d (analytic)', ...
+        B, alpha, ecc_min, ecc_max, round(analytic));
     title(str, 'FontSize',18)
     
 end
