@@ -119,7 +119,7 @@ for ii = 1:4
     
     hold off
     t=title(ROIs{ii});
-    t.Units = 'normalized'
+    t.Units = 'normalized';
     t.Position = [0.2 0.85 0];
     myx = xlim;
     
