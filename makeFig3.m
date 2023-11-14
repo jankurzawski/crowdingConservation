@@ -1,92 +1,84 @@
-clc
-clear
-close all
-addpath(genpath('data'))
-addpath(genpath('code'))
-addpath(genpath('extra'))
 
 % This script computes the relationship between surface area and number of
 % letters with the assumption that conservation holds. It finds the best
 % fitting constant of proportionality and asks how much variance in the
 % psychophysical data (number of letters) is explained by a simple scaling
 % of the surface area.
-nboot = 10;
-[bouma, area] = crowding_summary_data();
 
+
+clc
+clear
+close all
+
+addpath(genpath('data'))
+addpath(genpath('code'))
+addpath(genpath('extra'))
+ROIs = {'V1' 'V2' 'V3' 'hV4'};
 load mycmap
 
-% set this to true if you want to get a sense of null distributions: it
-% shuffles the assignment of psychophysical data to brain data
-
-% lower case letters for linear units
-a = area';
-b = bouma'; clear area bouma;
-n = length(b);
+% number of bootstraps for calculating CIs
+nboot = 100;
+% load data
+[bouma, area] = crowding_summary_data();
 
 % compute number of lettrs from bouma
-l = zeros(size(b));
+l = zeros(size(bouma));
 
-for i = 1 : length(b)
-    analytic = crowding_count_letters(b(i),0.24,10,0);
+for i = 1 : length(bouma)
+    analytic = crowding_count_letters(bouma(i),0.24,10,0);
     l(i) = analytic;
     axis off
 end
 
 
 
-% find linear constants, conservation slope c
-for ii = 4:-1:1
-    conservation(ii) = a(:,ii) \ l;
-end
-% predicted number of letters assuming to conservation
-pred = a .* conservation;
-
-
-% formula for coefficient of variation, R2, which ranges from -inf to 1
-% R2 = @(data, pred) 1 - sum((pred-data).^2) / sum((data - mean(data)).^2);
-
-% Plot the  fits
-ROIs = {'V1' 'V2' 'V3' 'hV4'};
 
 
 CI_range = 68;
 low_prct_range = (100-CI_range)/2;
 high_prct_range = 100-low_prct_range;
 
-CI_a_save = NaN(2,4);
 CI_r2 = NaN(nboot,4);
 convervation = NaN(4,1);
-k = NaN(1,4);
+m = NaN(1,4);
 myr2 = NaN(4,1);
 
 figure(1);clf
 set(gcf, 'color','w', 'Position', [400 400 500 700]); tiledlayout(2,2,'TileSpacing','compact');
 
+% Plot the  fits
+
 for ii = 1:4
     
     nexttile
     
-    
-    r2 = R2(l, pred(:,ii));
+    area_roi = area(:,ii);
+    % find slope of conservation (0 intercept)
+    conservation = area_roi \ l; 
+    % find number of letters preficted by conservation
+    pred = area_roi .* conservation;
+    % find how much variance is explained by conservation
+    r2 = R2(l, pred);
     myr2(ii) = r2;
-    xl = [0 max(a(:,ii))*1.05];
+    
+    
+    xl = [0 max(area_roi)*1.05];
     yl = [0 max(l)*1.05];
     
-    lm = fitlm(a(:,ii),l);
-    k(ii) = lm.Coefficients.Estimate(2); % save slope of the fit as k
+    lm = fitlm(area_roi,l);
+    m = lm.Coefficients.Estimate(2); % save slope of the fit as m
     lmpred = lm.Coefficients.Estimate(1)+ lm.Coefficients.Estimate(2)*xl;
     
-    data = [a(:,ii) l pred(:,ii)];
+    data = [area_roi l pred];
     fitresult_ls = bootstrp(nboot,@give_a_b_r,data);
     
     
     CI_a=prctile(fitresult_ls(:,2), [low_prct_range, high_prct_range]);
     CI_b=prctile(fitresult_ls(:,1), [low_prct_range, high_prct_range]);
-    CI_a_save(:,ii) = CI_a;
     CI_r2(:,ii)=fitresult_ls(:,3);
     
     
-    X = linspace(min(a(:,ii)),max(a(:,ii)),100);
+    X = linspace(min(area_roi),max(area_roi),100);
     y = zeros(100,nboot);
     
     for i = 1:nboot
@@ -99,21 +91,21 @@ for ii = 1:4
     CI_y=prctile(y, [low_prct_range, high_prct_range],2);
     
     set(gca, 'FontSize', 15)
-    fprintf('V%d : R^2=%3.2f,\t conservation = %3.2f letters/mm^2,\tk = %.2f letters/mm^2\n', ii, r2, conservation(ii),k(ii))
+    fprintf('V%d : R^2=%3.2f,\t conservation = %3.2f letters/mm^2,\tk = %.2f letters/mm^2\n', ii, r2, conservation,m)
     
     axis([xl yl])
     
     hold on,
-    plot(xl, conservation(ii) * xl, 'k--', 'LineWidth', 1)
+    plot(xl, conservation * xl, 'k--', 'LineWidth', 1)
     plot(xl, lmpred, '-', 'Color', mycmap{ii}(2,:), 'LineWidth', 3);
     plot(X,CI_y,'--','linewidth',2,'Color', mean(mycmap{ii}))
     g = gca;
     g.XAxis.LineWidth = 1;
     g.YAxis.LineWidth = 1;
-    s_ex = scatter(a([2 9],ii), l([2 9]), 'MarkerFaceColor','k');
+    s_ex = scatter(area_roi([2 9]), l([2 9]), 'MarkerFaceColor','k');
     s_ex.SizeData = 60;
 
-    s = scatter(a(:,ii), l,  'MarkerFaceColor',mycmap{ii}(2,:), 'MarkerEdgeColor', 'k');
+    s = scatter(area_roi, l,  'MarkerFaceColor',mycmap{ii}(2,:), 'MarkerEdgeColor', 'k');
     s.MarkerFaceAlpha = 1;
     s.MarkerEdgeColor = mycmap{ii}(2,:);
     s.SizeData = 20;
@@ -126,7 +118,7 @@ for ii = 1:4
     myx = xlim;
     
     if ii == 4
-        text(min(a(:,ii))+0.03*myx(2),100,sprintf('\\rm\\itc\\rm = %.1f mm',round(1/sqrt(k(ii)),2)),'FontSize',20,'FontWeight','bold','horizontalalignment','left','Color',[0 0 0])
+        text(min(area_roi)+0.03*myx(2),100,sprintf('\\rm\\itc\\rm = %.1f mm',round(1/sqrt(m),2)),'FontSize',20,'FontWeight','bold','horizontalalignment','left','Color',[0 0 0])
     end
     
     if ii == 1
@@ -146,8 +138,8 @@ for ii = 1:4
 end
 
 set(gcf, 'color','w', 'Position', [400 400 500 700]);
-% hgexport(gcf, sprintf('conservation_fit.eps'));
 
+%% plot R2 with CIs
 figure(2);clf
 set(gcf, 'color','w', 'Position', [900   400   500   700]);
 
@@ -190,6 +182,8 @@ end
 
 
 function out_R2 = R2(data, pred)
+% formula for coefficient of variation, R2, which ranges from -inf to 1
+% R2 = @(data, pred) 1 - sum((pred-data).^2) / sum((data - mean(data)).^2);
 
 out_R2 = 1 - sum((pred-data).^2) / sum((data - mean(data)).^2);
 
