@@ -52,7 +52,7 @@ for ii = 1:length(ROIs)
     
     area_roi = area(:,ii);
     % find slope of conservation (0 intercept)
-    conservation = area_roi \ l; 
+    conservation = area_roi \ l;
     % find number of letters preficted by conservation
     pred = area_roi .* conservation;
     % find how much variance is explained by conservation
@@ -100,15 +100,20 @@ for ii = 1:length(ROIs)
     g = gca;
     g.XAxis.LineWidth = 1;
     g.YAxis.LineWidth = 1;
-    s_ex = scatter(area_roi([2 9]), l([2 9]), 'MarkerFaceColor','k');
-    s_ex.SizeData = 60;
 
+    
     s = scatter(area_roi, l,  'MarkerFaceColor',mycmap{ii}(2,:), 'MarkerEdgeColor', 'k');
     s.MarkerFaceAlpha = 1;
     s.MarkerEdgeColor = mycmap{ii}(2,:);
     s.SizeData = 20;
     
-
+    s_ex = scatter(area_roi([2 9]), l([2 9]), 'MarkerFaceColor','k');
+    s_ex.SizeData = 60;
+    s = scatter(area_roi([2 9]), l([2 9]),  'MarkerFaceColor',mycmap{ii}(2,:), 'MarkerEdgeColor', 'k');
+    s.MarkerFaceAlpha = 1;
+    s.MarkerEdgeColor = mycmap{ii}(2,:);
+    s.SizeData = 20;
+    
     hold off
     t=title(ROIs{ii});
     t.Units = 'normalized';
@@ -121,8 +126,8 @@ for ii = 1:length(ROIs)
     
     if ii == 1
         
-                t=text(280,110,sprintf('conservation'),'FontSize',12,'FontWeight','normal','horizontalalignment','left','Color',[0 0 0]);
-                t.Rotation = 38.5;
+        t=text(280,110,sprintf('conservation'),'FontSize',12,'FontWeight','normal','horizontalalignment','left','Color',[0 0 0]);
+        t.Rotation = 38.5;
     end
     
     if ii == 1
