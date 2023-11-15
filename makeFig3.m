@@ -120,6 +120,12 @@ for ii = 1:length(ROIs)
     end
     
     if ii == 1
+        
+                t=text(280,110,sprintf('conservation'),'FontSize',12,'FontWeight','normal','horizontalalignment','left','Color',[0 0 0]);
+                t.Rotation = 38.5;
+    end
+    
+    if ii == 1
         xticks([0 2000 4000])
         
     elseif ii == 2
