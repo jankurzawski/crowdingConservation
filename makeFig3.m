@@ -144,9 +144,15 @@ for ii = 1:length(ROIs)
     end
     
     drawnow
+    g = gca;
+    g.YAxis.LineWidth = 1;
+    g.XAxis.LineWidth = 1;
+    g.XColor = [0 0 0];
+    g.YColor = [0 0 0];
 end
 
 set(gcf, 'color','w', 'Position', [400 400 500 700]);
+hgexport(gcf, sprintf('./figures/conservation_fit.eps'));
 
 %% plot R2 with CIs
 figure(2);clf
@@ -171,13 +177,16 @@ ylim([-0.3  0.6])
 yticks([-0.2 0 0.2 0.4 0.6 0.8])
 
 xticklabels(ROIs)
-set(gca,'Fontsize',18);
+set(gca,'Fontsize',15);
 xlim([0 4.5])
 box off
 g = gca;
 g.YAxis.LineWidth = 1;
 g.XAxis.LineWidth = 1;
+g.XColor = [0 0 0];
+g.YColor = [0 0 0];
 
+hgexport(gcf, sprintf('./figures/variance_expl.eps'));
 
 function [fitresults] = give_a_b_r(data)
 
