@@ -1,4 +1,5 @@
 *.eps
 *.ai
 *.png
-old/
+*.fig
+*.DS_Store

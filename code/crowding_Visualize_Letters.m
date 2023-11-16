@@ -151,7 +151,7 @@ for fig_num = 1:plots
     text(0, 0, '+', 'FontSize',20, 'HorizontalAlignment','center','VerticalAlignment','middle');
 
     % Plot title
-    str = sprintf('Bouma factor: %2.1f; Radial/Tangential ratio: %2.1f\nTotal number of letters from %3.2fº to %3.2fº: %d (analytic)', ...
+    str = sprintf('Bouma factor: %2.2f; Radial/Tangential ratio: %2.1f\nTotal number of letters from %3.2fº to %3.2fº: %d (analytic)', ...
         B, alpha, ecc_min, ecc_max, round(analytic));
     title(str, 'FontSize',18)
     
