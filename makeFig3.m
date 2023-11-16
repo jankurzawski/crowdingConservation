@@ -19,7 +19,7 @@ ROIs = {'V1' 'V2' 'V3' 'hV4'};
 load mycmap
 
 % number of bootstraps for calculating CIs
-nboot = 100;
+nboot = 1000;
 % load data
 [bouma, area] = crowding_summary_data();
 
@@ -72,7 +72,7 @@ for ii = 1:length(ROIs)
     
     
     CI_a=prctile(fitresult_ls(:,2), [low_prct_range, high_prct_range]);
-    CI_b=prctile(fitresult_ls(:,1), [low_prct_range, high_prct_range]);
+    CI_b=prctile(fitresult_ls(:,1), [low_prct_range, high_prct_range])
     CI_r2(:,ii)=fitresult_ls(:,3);
     
     
@@ -201,7 +201,7 @@ function out_R2 = R2(data, pred)
 % formula for coefficient of variation, R2, which ranges from -inf to 1
 % R2 = @(data, pred) 1 - sum((pred-data).^2) / sum((data - mean(data)).^2);
 
-out_R2 = 1 - sum((pred-data).^2) / sum((data - mean(data)).^2);
+out_R2 = 1 - sumsqr(pred-data) / sumsqr(data - mean(data));
 
 end
 
