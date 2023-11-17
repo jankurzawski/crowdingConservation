@@ -66,6 +66,8 @@ end
     g.XAxis.LineWidth = 1;
     g.XColor = [0 0 0];
     g.YColor = [0 0 0];
+    hgexport(gcf, sprintf('./figures/crowding_dist_%s.eps',obs{o}));
+
 end
 
 
