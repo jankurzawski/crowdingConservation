@@ -3,16 +3,22 @@ clear
 close all
 obs = {'wlsubj045';'wlsubj117'}
 
-cmap = [[0 0 0];[0.5 0.5 0.5]]
-sess = [-0.2 0.2]
-style = {'-';'-'}
+cmap = round([[182 83 159];[238 44 123];[182 83 159];[238 44 123]]/255,2)
+sess = [-0.3 0.9 -0.9 0.3]
+style = {'-';'-';'-';'-'}
 
 
 for o = 1 : length(obs)
-    
+    close all
+    clear h
+    if o == 2
+        cmap = round([[182 83 159];[238 44 123];[182 83 159];[238 44 123]]/255,2)
+    else
+        cmap = round([[29 117 188];[25 186 185];[29 117 188];[25 186 185]]/255,2)
+    end
     d = dir(sprintf('./data/*%s*',obs{o}));
     figure(o)
-    for ses = 1:2
+    for ses = 1:4
 
         data = load([d(ses).folder filesep d(ses).name])
 
@@ -48,8 +54,10 @@ for o = 1 : length(obs)
 
     end
     axis image
+    
 hh = plotrings
-h(3) = hh;
+h =cat(2,h,hh)
+
 ylim([-15.5 15.5])
 xlim([-15.5 15.5])
 box off
@@ -58,22 +66,24 @@ ylabel('Vertical eccentricity')
 xticks([-15 -10 -5 0 5 10 15])
 yticks([-15 -10 -5 0 5 10 15])
 set(gca, 'FontSize', 15)
-if o == 1
-legend(h,{'Session 1';'Session 2';'10º'},'box','off')
-end
+
+% if o == 1
+legend(h([1 2 5 6]),{'Session 1';'Session 2';'5º';'10º'},'box','off')
+% end
     g = gca;
     g.YAxis.LineWidth = 1;
     g.XAxis.LineWidth = 1;
     g.XColor = [0 0 0];
     g.YColor = [0 0 0];
+    g.Color = 'None'
     hgexport(gcf, sprintf('./figures/crowding_dist_%s.eps',obs{o}));
 
 end
 
 
 function [h] = plotrings
-
-for ri = [10]
+ct = 1
+for ri = [5 10]
     
     r = abs(ri);
     r(r==0) = [];
@@ -88,8 +98,9 @@ for ri = [10]
     yunit = r * sin(th)+0;
     
     
-    h = plot(xunit, yunit,':k','Linewidth',2); hold on
-    h.Color(4) = 0.15;
+    h(ct) = plot(xunit, yunit,':k','Linewidth',2); hold on
+    h(ct).Color(4) = 0.15;
+    ct = ct + 1
     
 end
 end
