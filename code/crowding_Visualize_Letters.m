@@ -72,7 +72,8 @@ B_tangential = B / sqrt(alpha);
 % phase offset prevents this. Note the local frequency is the derivative of
 % local phase, and the derivatives of these expressions should give the
 % reciprical of spacing. 
-phase_radial        = rand*2*pi+ 2*pi/B_radial * log(r+ecc_0);         % phase for annuli (along radial axis)
+offset              = pi/2 - (2*pi/B_radial * log(10+ecc_0));
+phase_radial        = 2*pi/B_radial * log(r+ecc_0)+offset;      % phase for annuli (along radial axis)
 phase_tangential    = rand*2*pi+ 2*pi/B_tangential*th.* r./(r+ecc_0);  % phase for pinwheels (around circle)
 annuli              = sin(phase_radial);
 pinwheels           = sin(phase_tangential);
@@ -91,8 +92,8 @@ inds = find(BW);
 
 % Remove letters that are very close to the inner or outer edge of the
 % display to avoid artifacts
-BAD = r(inds)/ecc_max>.99 | r(inds)/ecc_min<1.01;
-inds = inds(~BAD);
+% BAD = r(inds)/ecc_max>.99 | r(inds)/ecc_min<1.01;
+% inds = inds(~BAD);
 
 counted = length(inds);
 analytic = crowding_count_letters(B, ecc_0, ecc_max, ecc_min);
@@ -103,7 +104,7 @@ analytic = crowding_count_letters(B, ecc_0, ecc_max, ecc_min);
 letters.x = x(inds);
 letters.y = y(inds);
 [letters.th, letters.r] = cart2pol(letters.x, letters.y);
-letters.font_size = letters.r/ecc_max * 35 +ecc_min/4;
+letters.font_size = letters.r/ecc_max * 50 +ecc_min/4;
 letters.Sloan = {'D' 'H' 'K' 'N' 'O' 'R' 'S' 'V' 'Z'};
 letters.char = letters.Sloan(randi(9, [length(inds) 1])); 
 
@@ -153,6 +154,6 @@ for fig_num = 1:plots
     % Plot title
     str = sprintf('Bouma factor: %2.2f; Radial/Tangential ratio: %2.1f\nTotal number of letters from %3.2fº to %3.2fº: %d (analytic)', ...
         B, alpha, ecc_min, ecc_max, round(analytic));
-    title(str, 'FontSize',18)
+%     title(str, 'FontSize',18)
     
 end
