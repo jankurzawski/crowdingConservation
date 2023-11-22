@@ -1,4 +1,4 @@
-function [counted, analytic,letters] = crowding_Visualize_Letters(B, alpha, ecc_0, ecc_max, ecc_min,plots)
+function [counted, analytic,letters] = crowding_Visualize_Letters(B, alpha, ecc_0, ecc_max, ecc_min,plots, B_orientation)
 %Make a display of Sloan letters spaced according to Bouma's law.
 %
 % Inputs
@@ -20,7 +20,7 @@ function [counted, analytic,letters] = crowding_Visualize_Letters(B, alpha, ecc_
 %   crowding_Visualize_Letters(0.4);
 %
 % Example 3 (vary alpha)
-%Â   crowding_Visualize_Letters([], 1);
+%   crowding_Visualize_Letters([], 1);
 %   crowding_Visualize_Letters([], 2);
 %
 % See also crowding_count_letters
@@ -34,6 +34,13 @@ function [counted, analytic,letters] = crowding_Visualize_Letters(B, alpha, ecc_
 if ~exist('B', 'var')     || isempty(B), B = 0.3; end
 if ~exist('alpha', 'var') || isempty(alpha), alpha = 2; end
 if ~exist('ecc_0', 'var') || isempty(ecc_0), ecc_0 = 0.24; end
+if ~exist('B_orientation', 'var') || isempty(B_orientation), B_orientation = 'r';  end
+
+switch lower(B_orientation)
+    case 'r', B = B / sqrt(alpha);
+    case 't', B = B * sqrt(alpha);
+    case 'm' % do nothing
+end
 
 % Display parameters
 if ~exist('ecc_max', 'var') || isempty(ecc_max), ecc_max = 10; end
@@ -96,7 +103,7 @@ inds = find(BW);
 % inds = inds(~BAD);
 
 counted = length(inds);
-analytic = crowding_count_letters(B, ecc_0, ecc_max, ecc_min);
+analytic = crowding_count_letters(B, ecc_0, ecc_max, ecc_min, 'm');
 
 
 
@@ -107,20 +114,6 @@ letters.y = y(inds);
 letters.font_size = letters.r/ecc_max * 50 +ecc_min/4;
 letters.Sloan = {'D' 'H' 'K' 'N' 'O' 'R' 'S' 'V' 'Z'};
 letters.char = letters.Sloan(randi(9, [length(inds) 1])); 
-
-
-
-% for visualization remove letters placed at eccentricity < 1;
-bad = letters.r <1;
-letters.th(bad) = [];
-letters.font_size(bad) = [];
-letters.r(bad) = [];
-letters.x(bad) = [];
-letters.y(bad) = [];
-letters.char(bad) = [];
-
-
-    
 
 if plots == 0, return; end
 
@@ -152,8 +145,8 @@ for fig_num = 1:plots
     text(0, 0, '+', 'FontSize',20, 'HorizontalAlignment','center','VerticalAlignment','middle');
 
     % Plot title
-    str = sprintf('Bouma factor: %2.2f; Radial/Tangential ratio: %2.1f\nTotal number of letters from %3.2fº to %3.2fº: %d (analytic)', ...
-        B, alpha, ecc_min, ecc_max, round(analytic));
-%     title(str, 'FontSize',18)
+    str = sprintf('Bouma factor: %2.2f; Radial/Tangential ratio: %2.1f\nTotal number of letters from %3.2fº to %3.2fº: %d (analytic) %d (counted)', ...
+        B, alpha, ecc_min, ecc_max, round(analytic), counted);
+     title(str, 'FontSize',18)
     
 end
