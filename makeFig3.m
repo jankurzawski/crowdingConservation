@@ -19,9 +19,9 @@ ROIs = {'V1' 'V2' 'V3' 'hV4'};
 load mycmap
 
 % number of bootstraps for calculating CIs
-nboot = 1000;
+nboot = 100;
 % load data
-[bouma, area] = crowding_summary_data();
+[bouma, area] = crowding_summary_data('both','both');
 
 % compute number of lettrs from bouma
 l = zeros(size(bouma));
@@ -121,7 +121,7 @@ for ii = 1:length(ROIs)
     myx = xlim;
     
     if ii == 4
-        text(min(area_roi)+0.03*myx(2),100,sprintf('\\rm\\itc\\rm = %.1f mm',round(1/sqrt(m),2)),'FontSize',20,'FontWeight','bold','horizontalalignment','left','Color',[0 0 0])
+        text(min(area_roi)+0.03*myx(2),100,sprintf('\\rm\\itc\\rm = %.1f mm',round(1/sqrt(conservation),2)),'FontSize',20,'FontWeight','bold','horizontalalignment','left','Color',[0 0 0])
     end
     
     if ii == 1
