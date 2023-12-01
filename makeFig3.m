@@ -19,7 +19,7 @@ ROIs = {'V1' 'V2' 'V3' 'hV4'};
 load mycmap
 
 % number of bootstraps for calculating CIs
-nboot = 100;
+nboot = 1000;
 % load data
 [bouma, area] = load_from_raw('midgray');
 % compute number of lettrs from bouma
