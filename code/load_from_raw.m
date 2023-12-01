@@ -1,7 +1,6 @@
 function [bouma, area] = load_from_raw(surfaceType)
 
 
-if ~exist('surfaceType', 'var') || isempty(surfaceType), surfaceType = 'midgray'; end
 
 [datatable] = load_crowding('./data/crowdingData');
 u_ses = unique(datatable.Session);
@@ -23,6 +22,7 @@ bouma = mean(bouma_sess);
 
 
 %%
+if ~exist('surfaceType', 'var') || isempty(surfaceType), surfaceType = 'midgray'; end
 
 hemi = {'lh';'rh'};
 researcher1 = load_surface('./data/surfaceData',surfaceType,'R1',hemi);
