@@ -1,5 +1,8 @@
 function [bouma, area] = load_from_raw(surfaceType)
 
+
+if ~exist('surfaceType', 'var') || isempty(surfaceType), surfaceType = 'midgray'; end
+
 [datatable] = load_crowding('./data/crowdingData');
 u_ses = unique(datatable.Session);
 u_obs = unique(datatable.Observer);
