@@ -5,6 +5,10 @@ function [bouma, area] = load_from_raw(surfaceType)
 [datatable] = load_crowding('./data/crowdingData');
 u_ses = unique(datatable.Session);
 u_obs = unique(datatable.Observer);
+
+assert(length(u_obs) == 49);
+assert(sum(datatable.Session == 1) == sum(datatable.Session == 2));
+
 bouma_sess = NaN(length(u_ses),length(u_obs));
 
 for o = 1 : length(u_obs)
