@@ -21,8 +21,7 @@ load mycmap
 % number of bootstraps for calculating CIs
 nboot = 100;
 % load data
-[bouma, area] = crowding_summary_data('both','both');
-
+[bouma, area] = load_from_raw('midgray');
 % compute number of lettrs from bouma
 l = zeros(size(bouma));
 
@@ -72,7 +71,7 @@ for ii = 1:length(ROIs)
     
     
     CI_a=prctile(fitresult_ls(:,2), [low_prct_range, high_prct_range]);
-    CI_b=prctile(fitresult_ls(:,1), [low_prct_range, high_prct_range])
+    CI_b=prctile(fitresult_ls(:,1), [low_prct_range, high_prct_range]);
     CI_r2(:,ii)=fitresult_ls(:,3);
     
     
