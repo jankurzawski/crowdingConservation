@@ -4,7 +4,7 @@ close all
 obs = {'wlsubj045';'wlsubj117'}
 
 cmap = round([[182 83 159];[238 44 123];[182 83 159];[238 44 123]]/255,2)
-sess = [-0.3 0.9 -0.9 0.3]
+sess = [0.9 -0.9 0.3 -0.3]
 style = {'-';'-';'-';'-'}
 
 
@@ -16,7 +16,7 @@ for o = 1 : length(obs)
     else
         cmap = round([[29 117 188];[25 186 185];[29 117 188];[25 186 185]]/255,2)
     end
-    d = dir(sprintf('./data/*%s*',obs{o}));
+    d = dir(sprintf('./data/crowdingData/*%s*',obs{o}));
     figure(o)
     for ses = 1:4
 
@@ -27,6 +27,7 @@ for o = 1 : length(obs)
             eccen_x = data.oo(thr).eccentricityXYDeg(1)
             eccen_y = data.oo(thr).eccentricityXYDeg(2)
             spacing = data.oo(thr).spacingDeg
+            s=scatter(eccen_x,eccen_y,15,[0 0 0],'filled')
 
             if eccen_x ~= 0
 
@@ -55,8 +56,8 @@ for o = 1 : length(obs)
     end
     axis image
     
-hh = plotrings
-h =cat(2,h,hh)
+hh = plotrings(cmap(1,:))
+h =cat(2,h,hh,s)
 
 ylim([-15.5 15.5])
 xlim([-15.5 15.5])
@@ -68,7 +69,7 @@ yticks([-15 -10 -5 0 5 10 15])
 set(gca, 'FontSize', 15)
 
 % if o == 1
-legend(h([1 2 5 6]),{'Session 1';'Session 2';'5º';'10º'},'box','off')
+legend(h([1 2 5 6 7]),{'Session 1';'Session 2';'5º';'10º';'target location'},'box','off')
 % end
     g = gca;
     g.YAxis.LineWidth = 1;
@@ -76,12 +77,12 @@ legend(h([1 2 5 6]),{'Session 1';'Session 2';'5º';'10º'},'box','off')
     g.XColor = [0 0 0];
     g.YColor = [0 0 0];
     g.Color = 'None'
-    hgexport(gcf, sprintf('./figures/crowding_dist_%s.eps',obs{o}));
+%     hgexport(gcf, sprintf('./figures/crowding_dist_%s.eps',obs{o}));
 
 end
 
 
-function [h] = plotrings
+function [h] = plotrings(mycmap)
 ct = 1
 for ri = [5 10]
     
@@ -102,5 +103,19 @@ for ri = [5 10]
     h(ct).Color(4) = 0.15;
     ct = ct + 1
     
+    plot([-0.5 0.5],[0 0],'Color',mycmap,'LineStyle','-','LineWidth',2)
+    plot([0 0],[-0.5 0.5],'Color',mycmap,'LineStyle','-','LineWidth',2)
+    
+    if ri == 5
+    coords = pol2cart([deg2rad(45) deg2rad(45)],[0 10])
+    a = plot([0 coords(2)],[0 coords(2)],':k','LineWidth',2)
+    a.Color(4) = 0.15;
+    a = plot([0 coords(2)],[0 -coords(2)],':k','LineWidth',2)
+    a.Color(4) = 0.15;
+    end
+%     polarplot([deg2rad(45) deg2rad(45)],[0 10],'Color',[0 0 0 0.15],'LineStyle',':','LineWidth',2)
+%     polarplot([deg2rad(-45) deg2rad(-45)],[0 10],'Color',[0 0 0 0.15],'LineStyle',':','LineWidth',2)
+%     polarplot([deg2rad(90) deg2rad(90)],[-0.1 0.1],'Color',mycmap,'LineStyle','-','LineWidth',2)
+
 end
 end
