@@ -1,10 +1,13 @@
 function [datatable] = load_crowding(datadir)
 
-% this functions load m-file data saved by CriticalSpacing.m software
-% https://github.com/denispelli/CriticalSpacing and creates a table
-% summarizing thresholds. There are 4 files per subject (two eccentricities
-% and two sessions). Each file contains thresholds measured at 4 cardinal
-% meridians and one eccentricity
+% this functions load m-file data saved by CriticalSpacing.m software that
+% measures crowding distance.
+% (https://github.com/denispelli/CriticalSpacing)
+
+% load_crowding  creates a table summarizing thresholds from all observes.
+% There are 4 files per subject (two eccentricities and two sessions). Each
+% file contains thresholds measured at 4 cardinal meridians and one
+% eccentricity
 
 files = dir(sprintf('%s/*.mat',datadir));
 datatable = table();
