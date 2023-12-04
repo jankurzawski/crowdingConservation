@@ -7,13 +7,12 @@ function [bouma, area] = load_from_raw(surfaceType)
 % visual maps from a specified surface and averages across hemispheres.
 
 [datatable] = load_crowding('./data/crowdingData');
-u_ses = unique(datatable.Session);
-u_obs = unique(datatable.Observer);
+u_ses       = unique(datatable.Session);
+u_obs       = unique(datatable.Observer);
+bouma_sess  = NaN(length(u_ses),length(u_obs));
 
 assert(length(u_obs) == 49);
 assert(sum(datatable.Session == 1) == sum(datatable.Session == 2));
-
-bouma_sess = NaN(length(u_ses),length(u_obs));
 
 for o = 1 : length(u_obs)
 
@@ -26,19 +25,19 @@ for o = 1 : length(u_obs)
     end
 end
 
-bouma = mean(bouma_sess);
+bouma       = mean(bouma_sess);
 
 
 %%
 if ~exist('surfaceType', 'var') || isempty(surfaceType), surfaceType = 'midgray'; end
 
-hemi = {'lh';'rh'};
+hemi        = {'lh';'rh'};
 researcher1 = load_surface('./data/surfaceData',surfaceType,'R1',hemi);
 researcher2 = load_surface('./data/surfaceData',surfaceType,'R2',hemi);
 
-r1 = sum(researcher1, 3); % sum across hemispheres
-r2 = sum(researcher2, 3); % sum across hemispheres
-area =  (r1+r2)/2; % average across researchers
+r1          = sum(researcher1, 3);   % sum across hemispheres
+r2          = sum(researcher2, 3);   % sum across hemispheres
+area        =  (r1+r2)/2;          % average across researchers
 
-bouma = bouma';
-area = area';
+bouma       = bouma';
+area        = area';
