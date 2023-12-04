@@ -1,6 +1,19 @@
 function [surface_size] = load_surface(datadir,surfaceType,Researcher,hemi)
 
 
+% this function calculates surfaze size of each area using freesurfer's
+% surface area files (*.area.mid, *.area (white) or *.area.pial).
+% Surface files are copied directly from freesurfer's surf directory. ROIs
+% are created in the same format, have indices from 0 to 4 and are
+% prepared in the same format as surface files. Both can be loaded to 
+% MATLAB by read_curv.m function that we include under the "extra" folder.
+
+% 0 (undefined)
+% 1 (V1)
+% 2 (V2)
+% 3 (V3)
+% 4 (hV4)
+
 
 
 for h = 1 : length(hemi)
