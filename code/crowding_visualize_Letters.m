@@ -60,7 +60,7 @@ end
 % maximum eccentriciy cannot be greater than 90 deg
 ecc_max = min(ecc_max, 900); 
 
-num_px  = ecc_max*100;
+num_px  = ecc_max*1000;
 
 % Make cartesian and polar grids
 [x, y] = meshgrid(linspace(-ecc_max,ecc_max,num_px));
@@ -117,7 +117,10 @@ letters.char = letters.Sloan(randi(9, [length(inds) 1]));
 
 % remove letters for readability
 letters.char(letters.th < deg2rad(-45)) = {''};
-letters.char(letters.th > (deg2rad(45))) = {''};
+letters.char(letters.th > deg2rad(45)) = {''};
+letters.char(letters.r < 1) = {''};
+
+
 if plots == 0, return; end
 
 % letters.
