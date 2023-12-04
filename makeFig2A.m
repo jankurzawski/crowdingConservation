@@ -95,13 +95,6 @@ for ri = [5 10]
     plot([-0.5 0.5],[0 0],'Color',mycmap,'LineStyle','-','LineWidth',2);
     plot([0 0],[-0.5 0.5],'Color',mycmap,'LineStyle','-','LineWidth',2);
 
-    if ri == 5
-        coords = pol2cart([deg2rad(45) deg2rad(45)],[0 10]);
-        a = plot([0 coords(2)],[0 coords(2)],':k','LineWidth',2);
-        a.Color(4) = 0.15;
-        a = plot([0 coords(2)],[0 -coords(2)],':k','LineWidth',2);
-        a.Color(4) = 0.15;
-    end
 
 end
 end

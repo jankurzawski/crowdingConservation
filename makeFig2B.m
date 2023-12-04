@@ -24,9 +24,6 @@ for b = 1 : length(boumas)
     crowding_Visualize_Letters(boumas(b),2,0.24,10,0,1);
     axis off
     plotrings(10)
-    hgexport(gcf, sprintf('./figures/letter_plot_subject%i.eps',b));
-
-
 end
 
 
