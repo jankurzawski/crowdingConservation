@@ -118,7 +118,6 @@ letters.char = letters.Sloan(randi(9, [length(inds) 1]));
 % remove letters for readability
 letters.char(letters.th < deg2rad(-45)) = {''};
 letters.char(letters.th > (deg2rad(45))) = {''};
-letters.char(letters.r < 1) = {''};
 if plots == 0, return; end
 
 % letters.
