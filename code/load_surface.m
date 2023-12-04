@@ -8,6 +8,7 @@ function [surface_size] = load_surface(datadir,surfaceType,Researcher,hemi)
 % prepared in the same format as surface files. Both can be loaded to 
 % MATLAB by read_curv.m function that we include under the "extra" folder.
 
+% Indices for ROI files are as follows:
 % 0 (undefined)
 % 1 (V1)
 % 2 (V2)
