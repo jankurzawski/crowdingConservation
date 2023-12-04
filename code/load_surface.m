@@ -15,7 +15,6 @@ function [surface_size] = load_surface(datadir,surfaceType,Researcher,hemi)
 % 4 (hV4)
 
 
-
 for h = 1 : length(hemi)
     
     
