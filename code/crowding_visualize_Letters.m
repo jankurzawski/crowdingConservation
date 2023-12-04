@@ -147,9 +147,6 @@ for fig_num = 1:plots
     % scale the font size 
     for ii = 1:length(letters.th), t(ii).FontSize = letters.font_size(ii); end
     
-    % add a fixation
-    text(0, 0, '+', 'FontSize',20, 'HorizontalAlignment','center','VerticalAlignment','middle');
-
     % Plot title
     str = sprintf('Bouma factor: %2.2f; Radial/Tangential ratio: %2.1f\nTotal number of letters from %3.2fº to %3.2fº: %d (analytic) %d (counted)', ...
         B, alpha, ecc_min, ecc_max, round(analytic), counted);
