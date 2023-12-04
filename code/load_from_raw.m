@@ -3,8 +3,8 @@ function [bouma, area] = load_from_raw(surfaceType)
 
 % this function prepares data for analysis and plotting. It loads the
 % datatable created by load_crowding and creates one threshold per observer
-% that we use in Figure 3. Using load_surface it calculates surface area of
-% visual maps from a specified surface and averages across hemispheres.
+% Using load_surface it calculates surface area of visual maps from a
+% specified surface and averages across hemispheres.
 
 [datatable] = load_crowding('./data/crowdingData');
 u_ses       = unique(datatable.Session);
