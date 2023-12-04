@@ -81,7 +81,7 @@ B_tangential = B / sqrt(alpha);
 % reciprical of spacing. 
 offset              = pi/2 - (2*pi/B_radial * log(10+ecc_0));
 phase_radial        = 2*pi/B_radial * log(r+ecc_0)+offset;      % phase for annuli (along radial axis)
-phase_tangential    = rand*2*pi+ 2*pi/B_tangential*th.* r./(r+ecc_0);  % phase for pinwheels (around circle)
+phase_tangential    = 2*pi/B_tangential*th.* r./(r+ecc_0);  % phase for pinwheels (around circle)
 annuli              = sin(phase_radial);
 pinwheels           = sin(phase_tangential);
 
@@ -111,10 +111,14 @@ analytic = crowding_count_letters(B, ecc_0, ecc_max, ecc_min, 'm');
 letters.x = x(inds);
 letters.y = y(inds);
 [letters.th, letters.r] = cart2pol(letters.x, letters.y);
-letters.font_size = letters.r/ecc_max * 50 +ecc_min/4;
+letters.font_size = letters.r/ecc_max * 35 +ecc_min/4;
 letters.Sloan = {'D' 'H' 'K' 'N' 'O' 'R' 'S' 'V' 'Z'};
 letters.char = letters.Sloan(randi(9, [length(inds) 1])); 
 
+% remove letters for readability
+letters.char(letters.th < deg2rad(-45)) = {''};
+letters.char(letters.th > (deg2rad(45))) = {''};
+letters.char(letters.r < 1) = {''};
 if plots == 0, return; end
 
 % letters.

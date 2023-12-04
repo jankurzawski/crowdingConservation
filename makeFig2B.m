@@ -5,6 +5,7 @@ close all
 cd(directory);
 addpath(genpath('data'))
 addpath(genpath('code'))
+addpath(genpath('extra'))
 
 load subjects_ID
 [bouma, area] = load_from_raw();
@@ -19,7 +20,7 @@ boumas = [bouma(S_low_bouma) bouma(S_high_bouma)];
 % Note that for visualization purposes we don't show letters below
 % eccentricity = 1
 
-for b = 2% : length(boumas)
+for b = 1% : length(boumas)
     crowding_Visualize_Letters(boumas(b),2,0.24,10,0,1);
     axis off
     plotrings(10)
