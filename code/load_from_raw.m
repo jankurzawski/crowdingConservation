@@ -37,7 +37,7 @@ researcher2 = load_surface('./data/surfaceData',surfaceType,'R2',hemi);
 
 r1          = sum(researcher1, 3);   % sum across hemispheres
 r2          = sum(researcher2, 3);   % sum across hemispheres
-area        =  (r1+r2)/2;          % average across researchers
+area        =  (r1+r2)/2;            % average across researchers
 
 bouma       = bouma';
 area        = area';
