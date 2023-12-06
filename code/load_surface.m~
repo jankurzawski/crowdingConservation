@@ -8,7 +8,7 @@ function [surface_size] = load_surface(datadir,surfaceType,Researcher,hemi)
 % Both can be loaded to freesurfer's read_curv.m function that we include
 % under the "extra" folder.
 
-
+f
 % Indices for ROI files are as follows: 
 % 0 (undefined) 
 % 1 (V1) 
