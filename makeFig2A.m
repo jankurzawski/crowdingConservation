@@ -1,6 +1,14 @@
 clc
 clear
 close all
+
+
+[directory,~] = fileparts(mfilename('fullpath'));
+cd(directory);
+addpath(genpath('code'));
+addpath(genpath('data'));
+addpath(genpath('extra'));
+
 obs = {'wlsubj045';'wlsubj117'}
 
 cmap = round([[182 83 159];[238 44 123];[182 83 159];[238 44 123]]/255,2);
@@ -49,6 +57,10 @@ for o = 1 : length(obs)
     end
     axis image
 
+    text(sqrt(5),5,'5º')
+    text(sqrt(10),10,'10º')
+    
+    
     hh = plotrings(cmap(1,:));
     h =cat(2,h,hh,s);
     ylim([-15.5 15.5]);
@@ -60,7 +72,7 @@ for o = 1 : length(obs)
     yticks([-15 -10 -5 0 5 10 15]);
     set(gca, 'FontSize', 15);
 
-    legend(h([1 2 5 6 7]),{'Session 1';'Session 2';'5º';'10º';'target location'},'box','off');
+    legend(h([1 2 7]),{'Session 1';'Session 2';'target location'},'box','off');
     g = gca;
     g.YAxis.LineWidth = 1;
     g.XAxis.LineWidth = 1;
