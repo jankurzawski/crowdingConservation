@@ -7,8 +7,7 @@ function [datatable] = load_crowding(datadir)
 % load_crowding creates a table summarizing thresholds from all observes.
 % There are 4 files per subject (two eccentricities and two sessions). Each
 % file contains thresholds measured at 4 cardinal meridians and one
-% eccentricity. Each file includes the Quest staircase where Quest controls
-% spacing at each trial.
+% eccentricity. Each file includes the Quest staircase where quest
 
 files = dir(sprintf('%s/*.mat',datadir));
 datatable = table();
