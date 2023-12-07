@@ -1,4 +1,4 @@
-function [surface_size] = load_surface(datadir,surfaceType,Researcher,hemi)
+function [surface_size] = load_surface(datadir,surfaceType,Researcher,hemi,myrange)
 
 
 % this function calculates surfaze size of each area using freesurfer's
@@ -27,13 +27,15 @@ for h = 1 : length(hemi)
         ind = strfind(surface_files(s).name,'_');
         subject = surface_files(s).name(ind(1)+1:ind(2)-1);
         researcher_rois = dir(sprintf('%s/%s.%s*%s',datadir,hemi{h},Researcher,subject));
-        
+        eccs = dir(sprintf('%s/%s.surface_%s*eccen',datadir,hemi{h},subject));
+
         surface = read_curv([datadir filesep surface_files(s).name]);
         rois = read_curv([datadir filesep researcher_rois.name]);
-        
+        eccentricity = read_curv([datadir filesep eccs.name]);
+
         for r = 1 : 4
             
-            surface_size(r,s,h) = sum(surface(rois == r));
+            surface_size(r,s,h) = sum(surface(rois == r & eccentricity > myrange(1) & eccentricity < myrange(2)));
             
             
         end
