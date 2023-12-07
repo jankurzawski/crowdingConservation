@@ -12,7 +12,7 @@ addpath(genpath('extra'));
 obs = {'wlsubj045';'wlsubj117'}
 
 cmap = round([[182 83 159];[238 44 123];[182 83 159];[238 44 123]]/255,2);
-sess = [0.25 -0.25 0.15 -0.15];
+sess = [0.45 -0.45 0.15 -0.15];
 style = {'-';'-';'-';'-'};
 
 
@@ -80,6 +80,8 @@ for o = 1 : length(obs)
     g.XColor = [0 0 0];
     g.YColor = [0 0 0];
     g.Color = 'None';
+
+    hgexport(gcf, sprintf('./figures/crowding_dist_%s.eps',obs{o}));
 
 end
 

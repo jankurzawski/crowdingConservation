@@ -22,7 +22,7 @@ boumas = [bouma(S_low_bouma) bouma(S_high_bouma)];
 % Note that for visualization purposes we show only a quarter of letters
 % centered at the horizontal meridian
 
-for b = 2% : length(boumas)
+for b = 1 : length(boumas)
     
     crowding_visualize_Letters(boumas(b),2,0.24,10,0,1,'r',cmap(b,:));
     axis off
