@@ -12,7 +12,7 @@ addpath(genpath('extra'));
 obs = {'wlsubj045';'wlsubj117'}
 
 cmap = round([[182 83 159];[238 44 123];[182 83 159];[238 44 123]]/255,2);
-sess = [0.9 -0.9 0.3 -0.3];
+sess = [0.25 -0.25 0.15 -0.15];
 style = {'-';'-';'-';'-'};
 
 
@@ -35,7 +35,6 @@ for o = 1 : length(obs)
             eccen_x = data.oo(thr).eccentricityXYDeg(1);
             eccen_y = data.oo(thr).eccentricityXYDeg(2);
             spacing = data.oo(thr).spacingDeg;
-            s=scatter(eccen_x,eccen_y,15,[0 0 0],'filled');
 
             if eccen_x ~= 0
 
@@ -52,6 +51,8 @@ for o = 1 : length(obs)
 
 
             end
+                        s=scatter(eccen_x,eccen_y,15,[0 0 0],'filled');
+
         end
 
     end

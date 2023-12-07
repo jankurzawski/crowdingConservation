@@ -1,4 +1,4 @@
-function [counted, analytic,letters] = crowding_Visualize_Letters(B, alpha, ecc_0, ecc_max, ecc_min,plots, B_orientation)
+function [counted, analytic,letters] = crowding_Visualize_Letters(B, alpha, ecc_0, ecc_max, ecc_min,plots, B_orientation,cmap)
 %Make a display of Sloan letters spaced according to Bouma's law.
 %
 % Inputs
@@ -60,7 +60,7 @@ end
 % maximum eccentriciy cannot be greater than 90 deg
 ecc_max = min(ecc_max, 900); 
 
-num_px  = ecc_max*1000;
+num_px  = ecc_max*100;
 
 % Make cartesian and polar grids
 [x, y] = meshgrid(linspace(-ecc_max,ecc_max,num_px));
@@ -79,7 +79,7 @@ B_tangential = B / sqrt(alpha);
 % phase offset prevents this. Note the local frequency is the derivative of
 % local phase, and the derivatives of these expressions should give the
 % reciprical of spacing. 
-offset              = pi/2 - (2*pi/B_radial * log(10+ecc_0));
+offset              = pi/2 - (2*pi/B_radial * log(5+ecc_0));
 phase_radial        = 2*pi/B_radial * log(r+ecc_0)+offset;      % phase for annuli (along radial axis)
 phase_tangential    = 2*pi/B_tangential*th.* r./(r+ecc_0);  % phase for pinwheels (around circle)
 annuli              = sin(phase_radial);
@@ -115,12 +115,6 @@ letters.font_size = letters.r/ecc_max * 35 +ecc_min/4;
 letters.Sloan = {'D' 'H' 'K' 'N' 'O' 'R' 'S' 'V' 'Z'};
 letters.char = letters.Sloan(randi(9, [length(inds) 1])); 
 
-% remove letters for readability
-letters.char(letters.th < deg2rad(-45)) = {''};
-letters.char(letters.th > deg2rad(45)) = {''};
-letters.char(letters.r < 1) = {''};
-
-
 if plots == 0, return; end
 
 % letters.
@@ -142,7 +136,7 @@ for fig_num = 1:plots
     hold on,
 
     % show letters at grating peaks
-    t = text(a, b, letters.char, 'FontName','Sloan', 'HorizontalAlignment','center');               
+    t = text(a, b, letters.char, 'FontName','Sloan', 'HorizontalAlignment','center','Color',cmap);               
 
     % scale the font size 
     for ii = 1:length(letters.th), t(ii).FontSize = letters.font_size(ii); end
