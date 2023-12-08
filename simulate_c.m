@@ -8,8 +8,8 @@ addpath(genpath('data'))
 addpath(genpath('code'))
 addpath(genpath('extra'))
 
-% factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
-factors_to_boot = {'across_subjects'};
+factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
+% factors_to_boot = {'within_subjects'};
 
 ecc_max = 10;
 ecc_min = 0;
@@ -144,6 +144,19 @@ xlabel('alpha')
 set(gca,'Fontsize',20)
 ylim([0 nboots/10])
 set(gcf,'Position',[510   386   797   631])
+
+
+
+CI_range = 68;
+low_prct_range = (100-CI_range)/2;
+high_prct_range = 100-low_prct_range;
+
+CI_c=prctile(conservation_to_save, [low_prct_range, high_prct_range]);
+CI_r=prctile(r2_to_save, [low_prct_range, high_prct_range]);
+
+
+fprintf('c = %.2f [%.2f-%.2f]\n',median(conservation_to_save),CI_c(1),CI_c(2));
+fprintf('r2 = %.2f [%.2f-%.2f]\n',median(r2_to_save),CI_r(1),CI_r(2));
 
 function out_R2 = R2(data, pred)
 % formula for coefficient of variation, R2, which ranges from -inf to 1
