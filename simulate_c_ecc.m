@@ -176,7 +176,7 @@ errorbar(1:length(c_boot_mean),c_boot_mean,c_boot_ci(:,1),c_boot_ci(:,2));
 xticks(1:20)
 xticklabels(leg)
 hold on
-s =plot(xlim,[1.4 1.4],'--')
+s =plot(xlim,[1.36 1.36],'--')
 legend(s,'Our estimate')
 
 xtickangle(90)
