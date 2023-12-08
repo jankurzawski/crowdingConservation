@@ -66,12 +66,15 @@ for x = 1 : nboots
     % for each subject pick bouma, and surface area based on the
     % distributions
     
+    alpha   = randn * alpha_std + alpha_mean;
+    ecc_0   = randn * phi_std + phi_mean;
     
+    alpha   = 2;
+    ecc_0   = 0.24;
+        
     
     for s = 1 : n_obs
         
-        alpha   = randn * alpha_std + alpha_mean;
-        ecc_0   = randn * phi_std + phi_mean;
         
         while ecc_0 < 0
             ecc_0   = randn * phi_std + phi_mean;
@@ -86,13 +89,7 @@ for x = 1 : nboots
             (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
             ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
         
-        if isreal(letters_picked(s))
-            
-        else
-            disp('complex')
-            
-        end
-        
+       
         areas_picked(s) = randn * area_std(pickindex) + area_means(pickindex);
         
     end
