@@ -3,6 +3,11 @@ clear
 close all
 
 
+factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'}
+% factors_to_boot = {'across_subjects';'within_subjects'};
+
+
+
 ecc_max = 10;
 ecc_min = 0;
 
@@ -36,57 +41,77 @@ phi_to_save =  NaN(1,nboots);
 
 choose = @(samples) samples(randi(numel(samples)));
 
+if ~exist('factors_to_boot','var'); factors_to_boot = {};end
 
 for x = 1 : nboots
-    
+
     % for one iteration pick alpha and ecc_0
-    
-    
+
+
     % for each subject pick bouma, and surface area based on the
     % distributions
-    
-  
-  
-    
+
+
+    if contains('alpha',factors_to_boot)
+
+        alpha   = randn * alpha_std + alpha_mean;
+    else
+        alpha   = 2;
+    end
+
+    if contains('phi0',factors_to_boot)
+        ecc_0   = randn * phi_std + phi_mean;
+    else
+        ecc_0   = 0.24;
+    end
+
+    while ecc_0 < 0
+
+        ecc_0   = randn * phi_std + phi_mean;
+    end
+
+
+
+
     for s = 1 : n_obs
-        
-%           alpha   = randn * alpha_std + alpha_mean;
-          alpha   = 2;
-%           ecc_0   = randn * phi_std + phi_mean;
-          ecc_0   = 0.24;
-          
-          while ecc_0 < 0
 
-              ecc_0   = randn * phi_std + phi_mean;
-          end
+        if contains('across_subjects',factors_to_boot)
+            pickindex          = choose(1:length(bouma_means));
+        else
+            pickindex = s;
+        end
 
+        if contains('within_subjects',factors_to_boot)
+            B                  = randn .* bouma_std(pickindex) + bouma_means(pickindex);
+        else
+            B                  = bouma_means(pickindex);
+        end
 
-        pickindex          = choose(1:length(bouma_means));
-        
-%         B                  = randn .* bouma_std(pickindex) + bouma_means(pickindex);
-        B                  = bouma_means(pickindex);
         B                  = B ./ sqrt(alpha);
-        
+
         letters_picked(s)  = 2*pi ./ B.^2 * ...
             (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
             ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
-        
-       
-%         areas_picked(s) = randn * area_std(pickindex) + area_means(pickindex);
-        areas_picked(s) = area_means(pickindex);
-        
+
+        if contains('within_subjects',factors_to_boot)
+            areas_picked(s) = randn * area_std(pickindex) + area_means(pickindex);
+        else
+
+            areas_picked(s) = area_means(pickindex);
+        end
+
     end
     conservation = areas_picked \ letters_picked;
     % find number of letters preficted by conservation
     pred = areas_picked .* conservation;
     % find how much variance is explained by conservation
     r2 = R2(letters_picked, pred);
-    
+
     conservation_to_save(x) = 1/sqrt(conservation);
     alpha_to_save(x) = alpha;
     phi_to_save(x) = ecc_0;
     r2_to_save(x) = r2;
-    
+
 end
 
 sgtitle(sprintf('Nboot = %i [%i-%i deg]',nboots,ecc_min,ecc_max))
@@ -95,8 +120,8 @@ histogram(conservation_to_save)
 ylim([0 nboots/10])
 yy = ylim;
 hold on
-plot([mean(conservation_to_save) mean(conservation_to_save)],[0 yy(2)],'linewidth',2)
-text(mean(conservation_to_save)+0.1*mean(conservation_to_save),yy(2) - 0.2*yy(2),sprintf('mean \\itc\\rm =%.2f',mean(conservation_to_save)),'FontSize',20)
+plot([median(conservation_to_save) median(conservation_to_save)],[0 yy(2)],'linewidth',2)
+text(median(conservation_to_save)-0.05*median(conservation_to_save),yy(2) - 0.2*yy(2),sprintf('median \\itc\\rm =%.2f',mean(conservation_to_save)),'FontSize',20)
 xlabel('c')
 set(gca,'Fontsize',20)
 
@@ -107,7 +132,7 @@ set(gca,'Fontsize',20)
 ylim([0 nboots/10])
 hold on
 plot([median(r2_to_save) median(r2_to_save)],[0 yy(2)],'linewidth',2)
-text(median(r2_to_save)+0.15*median(r2_to_save),yy(2) - 0.2*yy(2),sprintf('mean \\itr\\rm =%.2f',median(r2_to_save)),'FontSize',20)
+text(median(r2_to_save)-median(r2_to_save),yy(2) - 0.2*yy(2),sprintf('median \\itr\\rm =%.2f',median(r2_to_save)),'FontSize',20)
 subplot(2,2,3)
 histogram(phi_to_save)
 xlabel('phi zero')
@@ -119,7 +144,7 @@ histogram(alpha_to_save)
 xlabel('alpha')
 set(gca,'Fontsize',20)
 ylim([0 nboots/10])
-
+set(gcf,'Position',[510   386   797   631])
 
 function out_R2 = R2(data, pred)
 % formula for coefficient of variation, R2, which ranges from -inf to 1
