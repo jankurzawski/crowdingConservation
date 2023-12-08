@@ -66,7 +66,7 @@ for ii = 1:length(ROIs)
     m = lm.Coefficients.Estimate(2); % save slope of the fit as m
     lmpred = lm.Coefficients.Estimate(1)+ lm.Coefficients.Estimate(2)*xl;
     
-    data = [area_roi l pred];
+    data = [area_roi l];
     fitresult_ls = bootstrp(nboot,@give_a_b_r,data);
     
     
@@ -190,8 +190,10 @@ hgexport(gcf, sprintf('./figures/variance_expl.eps'));
 function [fitresults] = give_a_b_r(data)
 
 lm = fitlm(data(:,1),data(:,2));
-r2 = R2(data(:,2),data(:,3));
-fitresults = [lm.Coefficients.Estimate(1) lm.Coefficients.Estimate(2) r2];
+conservation = data(:,1) \ data(:,2);
+pred = data(:,1) .* conservation;
+r2 = R2(data(:,2),pred);
+fitresults = [lm.Coefficients.Estimate(1) lm.Coefficients.Estimate(2) r2 length(unique(data(:,1)))];
 
 end
 
