@@ -6,6 +6,11 @@ function [bouma, area] = load_from_raw(surfaceType,two_sess)
 % Using load_surface it calculates surface area of visual maps from a
 % specified surface (white, midgray, pial) and sums across hemispheres.
 
+
+if ~exist('surfaceType', 'var') || isempty(surfaceType), surfaceType = 'midgray'; end
+if ~exist('two_sess', 'var') || isempty(two_sess), two_sess = 0; end
+
+
 [datatable] = load_crowding('./data/crowdingData');
 u_ses       = unique(datatable.Session);
 u_obs       = unique(datatable.Observer);
@@ -33,7 +38,7 @@ else
 end
 
 %%
-if ~exist('surfaceType', 'var') || isempty(surfaceType), surfaceType = 'midgray'; end
+
 
 hemi        = {'lh';'rh'};
 % load ROIs from researcher 1
