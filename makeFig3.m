@@ -21,7 +21,8 @@ load mycmap
 % number of bootstraps for calculating CIs
 nboot = 1000;
 % load data
-[bouma, area] = load_from_raw('midgray');
+two_sess = 0;
+[bouma, area] = load_from_raw('midgray',two_sess,[0 10]);
 % compute number of lettrs from bouma
 l = zeros(size(bouma));
 
