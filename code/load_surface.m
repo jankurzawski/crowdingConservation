@@ -35,8 +35,12 @@ for h = 1 : length(hemi)
 
         for r = 1 : 4
             
+            if myrange(1) == 0 && myrange(2) == 10
+                surface_size(r,s,h) = sum(surface(rois == r));
+
+            else
             surface_size(r,s,h) = sum(surface(rois == r & eccentricity > myrange(1) & eccentricity < myrange(2)));
-            
+            end
             
         end
     end
