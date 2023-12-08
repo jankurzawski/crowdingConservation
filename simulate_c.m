@@ -14,25 +14,7 @@ area_means = mean(area);
 
 bouma_std = std(bouma);
 area_std = std(area);
-%%
-% for ee = 10:-1:1
-%
-%     eccs(ee,1) = 10;
-%     eccs(ee,2) = ee-1;
-% end
-% eccs = eccs(:,[2 1]);
 
-
-% for ee = 1:10
-%
-%     eccs(ee,1) = 0;
-%     eccs(ee,2) = ee;
-% end
-
-
-
-
-ecc_0 = 0.24;
 alpha_mean = 2.1083;
 alpha_std  = 0.3787;
 
@@ -68,10 +50,11 @@ for x = 1 : nboots
     
     for s = 1 : n_obs
         
-          alpha   = randn * alpha_std + alpha_mean;
-%           alpha   = 2;
-          ecc_0   = randn * phi_std + phi_mean;
-%           ecc_0   = 0.24;
+%           alpha   = randn * alpha_std + alpha_mean;
+          alpha   = 2;
+%           ecc_0   = randn * phi_std + phi_mean;
+          ecc_0   = 0.24;
+          
           while ecc_0 < 0
 
               ecc_0   = randn * phi_std + phi_mean;
@@ -80,8 +63,8 @@ for x = 1 : nboots
 
         pickindex          = choose(1:length(bouma_means));
         
-        B                  = randn .* bouma_std(pickindex) + bouma_means(pickindex);
-%         B                  = bouma_means(pickindex);
+%         B                  = randn .* bouma_std(pickindex) + bouma_means(pickindex);
+        B                  = bouma_means(pickindex);
         B                  = B ./ sqrt(alpha);
         
         letters_picked(s)  = 2*pi ./ B.^2 * ...
@@ -89,8 +72,8 @@ for x = 1 : nboots
             ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
         
        
-        areas_picked(s) = randn * area_std(pickindex) + area_means(pickindex);
-%         areas_picked(s) = area_means(pickindex);
+%         areas_picked(s) = randn * area_std(pickindex) + area_means(pickindex);
+        areas_picked(s) = area_means(pickindex);
         
     end
     conservation = areas_picked \ letters_picked;

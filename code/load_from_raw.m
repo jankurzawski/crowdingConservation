@@ -55,6 +55,8 @@ area(2,:) = r2(4,:);
 
 else
 area        =  (r1+r2)/2;  
+area = area';
+bouma = bouma';
 end
 % average across researchers
 
