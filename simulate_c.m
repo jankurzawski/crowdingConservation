@@ -9,7 +9,7 @@ addpath(genpath('code'))
 addpath(genpath('extra'))
 
 % factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
-factors_to_boot = {'within_subjects'};
+factors_to_boot = {'across_subjects'};
 
 ecc_max = 10;
 ecc_min = 0;
@@ -69,9 +69,6 @@ for x = 1 : nboots
         ecc_0   = randn * phi_std + phi_mean;
     end
 
-
-
-
     for s = 1 : n_obs
 
         % for each subject pick bouma, and surface area based on the
@@ -90,9 +87,7 @@ for x = 1 : nboots
             B = bouma_means(pickindex);
         end
 
-        B = B ./ sqrt(alpha);
-
-        letters_picked(s)  = 2*pi ./ B.^2 * ...
+        letters_picked(s)  = 2*pi ./ (B ./ sqrt(alpha)).^2 * ...
             (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
             ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
 
