@@ -9,7 +9,7 @@ addpath(genpath('code'))
 addpath(genpath('extra'))
 
 % factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
-factors_to_boot = {'across_subjects'};
+% factors_to_boot = {'within_subjects';'alpha';'phi0'};
 
 
 ecc_max = 10;
@@ -126,7 +126,7 @@ ylim([0 nboots/10])
 yy = ylim;
 hold on
 plot([median(conservation_to_save) median(conservation_to_save)],[0 yy(2)],'linewidth',2)
-text(median(conservation_to_save)-0.05*median(conservation_to_save),yy(2) - 0.2*yy(2),sprintf('median \\itc\\rm =%.2f',mean(conservation_to_save)),'FontSize',20)
+title(sprintf('median \\itc\\rm\\bf = %.2f',mean(conservation_to_save)),'FontSize',20)
 xlabel('c')
 set(gca,'Fontsize',20)
 
@@ -137,7 +137,7 @@ set(gca,'Fontsize',20)
 ylim([0 nboots/10])
 hold on
 plot([median(r2_to_save) median(r2_to_save)],[0 yy(2)],'linewidth',2)
-text(median(r2_to_save)-median(r2_to_save),yy(2) - 0.2*yy(2),sprintf('median \\itr\\rm =%.2f',median(r2_to_save)),'FontSize',20)
+title(sprintf('median \\itr^2\\rm\\bf = %.2f',median(r2_to_save)),'FontSize',20)
 subplot(2,2,3)
 histogram(phi_to_save)
 xlabel('phi zero')

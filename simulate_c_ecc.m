@@ -37,9 +37,6 @@ for e = 1 : size(eccs,1)
 factors_to_boot = {'across_subjects'};
 
 
-ecc_max = 10;
-ecc_min = 0;
-
 load_two_sessions = 1;
 [bouma, area] = load_from_raw('midgray',load_two_sessions,[ecc_min ecc_max]);
 
@@ -158,6 +155,26 @@ leg{e} = sprintf('[%i-%i deg]',ecc_min,ecc_max)
 end
 
 
+%%
+figure(1);clf
+subplot(1,2,1)
+errorbar(1:length(c_boot_mean),c_boot_mean,c_boot_se)
+xticks(1:20)
+xticklabels(leg)
+hold on
+s =plot(xlim,[1.4 1.4],'--')
+legend(s,'Our estimate')
+
+xtickangle(90)
+
+subplot(1,2,2)
+errorbar(1:length(r2_boot_mean),r2_boot_mean,r2_boot_se)
+xticks(1:20)
+xticklabels(leg)
+hold on
+s =plot(xlim,[0.4 0.4],'--')
+legend(s,'Our estimate')
+xtickangle(90)
 
 function out_R2 = R2(data, pred)
 % formula for coefficient of variation, R2, which ranges from -inf to 1
