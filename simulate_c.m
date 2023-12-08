@@ -51,15 +51,9 @@ if ~exist('factors_to_boot','var'); factors_to_boot = {};end
 
 for x = 1 : nboots
 
-    % for one iteration pick alpha and ecc_0
-
-
-    % for each subject pick bouma, and surface area based on the
-    % distributions
-
+    % for each iteration pick alpha and ecc_0
 
     if contains('alpha',factors_to_boot)
-
         alpha   = randn * alpha_std + alpha_mean;
     else
         alpha   = 2;
@@ -72,7 +66,6 @@ for x = 1 : nboots
     end
 
     while ecc_0 < 0
-
         ecc_0   = randn * phi_std + phi_mean;
     end
 
@@ -81,6 +74,10 @@ for x = 1 : nboots
 
     for s = 1 : n_obs
 
+        % for each subject pick bouma, and surface area based on the
+        % distributions
+
+    
         if contains('across_subjects',factors_to_boot)
             pickindex = choose(1:length(bouma_means));
         else
