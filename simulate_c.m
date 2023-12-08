@@ -2,16 +2,21 @@ clc
 clear
 close all
 
+[directory,~] = fileparts(mfilename('fullpath'));
+cd(directory);
+addpath(genpath('data'))
+addpath(genpath('code'))
+addpath(genpath('extra'))
 
-factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'}
-% factors_to_boot = {'across_subjects';'within_subjects'};
-
+factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
+factors_to_boot = {'across_subjects'};
 
 
 ecc_max = 10;
 ecc_min = 0;
 
-[bouma, area] = load_from_raw('midgray',1);
+load_two_sessions = 1;
+[bouma, area] = load_from_raw('midgray',load_two_sessions,[ecc_min ecc_max]);
 
 n_obs = length(area);
 bouma_means = mean(bouma);
