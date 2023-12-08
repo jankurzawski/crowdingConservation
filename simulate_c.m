@@ -19,7 +19,7 @@ area_std = std(area);
 
 %%
 % for ee = 10:-1:1
-%     
+%
 %     eccs(ee,1) = 10;
 %     eccs(ee,2) = ee-1;
 % end
@@ -27,7 +27,7 @@ area_std = std(area);
 
 
 % for ee = 1:10
-%     
+%
 %     eccs(ee,1) = 0;
 %     eccs(ee,2) = ee;
 % end
@@ -54,36 +54,56 @@ r2_to_save = NaN(1,nboots);
 alpha_to_save = NaN(1,nboots);
 phi_to_save =  NaN(1,nboots);
 
+
+choose = @(samples) samples(randi(numel(samples)));
+
+
 for x = 1 : nboots
-
+    
     % for one iteration pick alpha and ecc_0
-    alpha   = randn * alpha_std + alpha_mean;
-    ecc_0   = randn * phi_std + phi_mean;
-
+    
+    
     % for each subject pick bouma, and surface area based on the
     % distributions
+    
+    alpha   = randn * alpha_std + alpha_mean;
+    ecc_0   = randn * phi_std + phi_mean;
+    
+    alpha   = 2;
+    ecc_0   = 0.24;
+        
+    
     for s = 1 : n_obs
-
-        B                  = randn * bouma_std(s) + bouma_means(s);
+        
+        
+        while ecc_0 < 0
+            ecc_0   = randn * phi_std + phi_mean;
+        end
+        
+        pickindex          = choose(1:length(bouma_means));
+        
+        B                  = randn * bouma_std(pickindex) + bouma_means(pickindex);
         B                  = B ./ sqrt(alpha);
-
+        
         letters_picked(s)  = 2*pi ./ B.^2 * ...
-        (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
-        ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
-        areas_picked(s) = randn * area_std(s) + area_means(s);
-
+            (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
+            ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
+        
+       
+        areas_picked(s) = randn * area_std(pickindex) + area_means(pickindex);
+        
     end
     conservation = areas_picked \ letters_picked;
     % find number of letters preficted by conservation
     pred = areas_picked .* conservation;
     % find how much variance is explained by conservation
     r2 = R2(letters_picked, pred);
-
+    
     conservation_to_save(x) = 1/sqrt(conservation);
     alpha_to_save(x) = alpha;
     phi_to_save(x) = ecc_0;
     r2_to_save(x) = r2;
-
+    
 end
 
 sgtitle(sprintf('Nboot = %i [%i-%i deg]',nboots,ecc_min,ecc_max))
@@ -93,7 +113,7 @@ ylim([0 nboots/10])
 yy = ylim;
 hold on
 plot([mean(conservation_to_save) mean(conservation_to_save)],[0 yy(2)],'linewidth',2)
-text(mean(conservation_to_save)+0.15*mean(conservation_to_save),yy(2) - 0.2*yy(2),sprintf('mean \\itc\\rm =%.2f',mean(conservation_to_save)),'FontSize',20)
+text(mean(conservation_to_save)+0.1*mean(conservation_to_save),yy(2) - 0.2*yy(2),sprintf('mean \\itc\\rm =%.2f',mean(conservation_to_save)),'FontSize',20)
 xlabel('c')
 set(gca,'Fontsize',20)
 
@@ -102,7 +122,9 @@ histogram(r2_to_save)
 xlabel('r2')
 set(gca,'Fontsize',20)
 ylim([0 nboots/10])
-
+hold on
+plot([median(r2_to_save) median(r2_to_save)],[0 yy(2)],'linewidth',2)
+text(median(r2_to_save)+0.15*median(r2_to_save),yy(2) - 0.2*yy(2),sprintf('mean \\itr\\rm =%.2f',median(r2_to_save)),'FontSize',20)
 subplot(2,2,3)
 histogram(phi_to_save)
 xlabel('phi zero')
