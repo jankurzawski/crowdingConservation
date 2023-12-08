@@ -157,10 +157,11 @@ for e = 1 : size(eccs,1)
 
     
     c_boot_mean(e) = median(conservation_to_save);
-    c_boot_ci(e,:) = CI_c;
+    c_boot_ci(e,:) = abs(CI_c - median(conservation_to_save));
+
     
     r2_boot_mean(e) = median(r2_to_save);
-    r2_boot_ci(e,:) = CI_r;
+    r2_boot_ci(e,:) = abs(CI_r - median(r2_to_save));
     
     leg{e} = sprintf('[%i-%i deg]',ecc_min,ecc_max)
     
