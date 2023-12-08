@@ -7,7 +7,13 @@ cd(directory);
 addpath(genpath('data'))
 addpath(genpath('code'))
 addpath(genpath('extra'))
-roi = 1;
+roi = 4;
+
+  
+CI_range = 68;
+low_prct_range = (100-CI_range)/2;
+high_prct_range = 100-low_prct_range;
+
 
 
 for ee = 10:-1:1
@@ -144,13 +150,17 @@ for e = 1 : size(eccs,1)
         
     end
     
+  
+    CI_c=prctile(conservation_to_save, [low_prct_range, high_prct_range]);
+    CI_r=prctile(r2_to_save, [low_prct_range, high_prct_range]);
     
+
     
-    c_boot_mean(e) = mean(conservation_to_save)
-    c_boot_se(e) = std(conservation_to_save)
+    c_boot_mean(e) = median(conservation_to_save);
+    c_boot_ci(e,:) = CI_c;
     
-    r2_boot_mean(e) = mean(r2_to_save)
-    r2_boot_se(e) = std(r2_to_save)
+    r2_boot_mean(e) = median(r2_to_save);
+    r2_boot_ci(e,:) = CI_r;
     
     leg{e} = sprintf('[%i-%i deg]',ecc_min,ecc_max)
     
@@ -161,7 +171,7 @@ end
 %%
 figure(1);clf
 subplot(1,2,1)
-errorbar(1:length(c_boot_mean),c_boot_mean,c_boot_se)
+errorbar(1:length(c_boot_mean),c_boot_mean,c_boot_ci(:,1),c_boot_ci(:,2));
 xticks(1:20)
 xticklabels(leg)
 hold on
@@ -171,7 +181,7 @@ legend(s,'Our estimate')
 xtickangle(90)
 
 subplot(1,2,2)
-errorbar(1:length(r2_boot_mean),r2_boot_mean,r2_boot_se)
+errorbar(1:length(r2_boot_mean),r2_boot_mean,r2_boot_ci(:,1),r2_boot_ci(:,2));
 xticks(1:20)
 xticklabels(leg)
 hold on
