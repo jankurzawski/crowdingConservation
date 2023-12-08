@@ -51,8 +51,8 @@ r2          = sum(researcher2, 3);   % sum across hemispheres
 
 if two_sess
     
-    area(1,:) = r1(4,:);
-    area(2,:) = r2(4,:);
+    area(1,:,:) = r1;
+    area(2,:,:) = r2;
     
 else
     area        =  (r1+r2)/2;

@@ -9,14 +9,15 @@ addpath(genpath('code'))
 addpath(genpath('extra'))
 
 % factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
-% factors_to_boot = {'within_subjects';'alpha';'phi0'};
-
+factors_to_boot = {'within_subjects'};
 
 ecc_max = 10;
 ecc_min = 0;
 
 load_two_sessions = 1;
 [bouma, area] = load_from_raw('midgray',load_two_sessions,[ecc_min ecc_max]);
+roi = 4;
+area = squeeze(area(:,roi,:));
 
 n_obs = length(area);
 bouma_means = mean(bouma);
@@ -81,18 +82,18 @@ for x = 1 : nboots
     for s = 1 : n_obs
 
         if contains('across_subjects',factors_to_boot)
-            pickindex          = choose(1:length(bouma_means));
+            pickindex = choose(1:length(bouma_means));
         else
             pickindex = s;
         end
 
         if contains('within_subjects',factors_to_boot)
-            B                  = randn .* bouma_std(pickindex) + bouma_means(pickindex);
+            B = randn .* bouma_std(pickindex) + bouma_means(pickindex);
         else
-            B                  = bouma_means(pickindex);
+            B = bouma_means(pickindex);
         end
 
-        B                  = B ./ sqrt(alpha);
+        B = B ./ sqrt(alpha);
 
         letters_picked(s)  = 2*pi ./ B.^2 * ...
             (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
@@ -101,7 +102,6 @@ for x = 1 : nboots
         if contains('within_subjects',factors_to_boot)
             areas_picked(s) = randn * area_std(pickindex) + area_means(pickindex);
         else
-
             areas_picked(s) = area_means(pickindex);
         end
 
@@ -119,7 +119,7 @@ for x = 1 : nboots
 
 end
 
-sgtitle(sprintf('Nboot = %i [%i-%i deg]',nboots,ecc_min,ecc_max))
+sgtitle(sprintf('Nboot = %i [%i-%i deg] V%i',nboots,ecc_min,ecc_max,roi))
 subplot(2,2,1)
 histogram(conservation_to_save)
 ylim([0 nboots/10])
@@ -135,6 +135,7 @@ histogram(r2_to_save)
 xlabel('r2')
 set(gca,'Fontsize',20)
 ylim([0 nboots/10])
+xlim([-1 1])
 hold on
 plot([median(r2_to_save) median(r2_to_save)],[0 yy(2)],'linewidth',2)
 title(sprintf('median \\itr^2\\rm\\bf = %.2f',median(r2_to_save)),'FontSize',20)
@@ -143,6 +144,7 @@ histogram(phi_to_save)
 xlabel('phi zero')
 set(gca,'Fontsize',20)
 ylim([0 nboots/10])
+
 
 subplot(2,2,4)
 histogram(alpha_to_save)
