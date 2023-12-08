@@ -54,6 +54,10 @@ r2_to_save = NaN(1,nboots);
 alpha_to_save = NaN(1,nboots);
 phi_to_save =  NaN(1,nboots);
 
+
+choose = @(samples) samples(randi(numel(samples)));
+
+
 for x = 1 : nboots
 
     % for one iteration pick alpha and ecc_0
@@ -62,15 +66,28 @@ for x = 1 : nboots
 
     % for each subject pick bouma, and surface area based on the
     % distributions
-    for s = 1 : n_obs
+    ind_vec = 1:length(bouma_means);
+    msize = numel(ind_vec);
+    pickind = ind_vec(randperm(msize, length(bouma_means)));
+    
+    boot_bouma_means = bouma_means(pickind);
+    boot_bouma_std = bouma_std(pickind);
+    
+    boot_area_means = area_means(pickind);
+    boot_area_std = area_std(pickind);
+    
 
-        B                  = randn * bouma_std(s) + bouma_means(s);
+    for s = 1 : n_obs
+        
+        pickindex          = choose(1:length(bouma_means));
+
+        B                  = randn * boot_bouma_std(pickindex) + boot_bouma_means(pickindex);
         B                  = B ./ sqrt(alpha);
 
         letters_picked(s)  = 2*pi ./ B.^2 * ...
         (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
         ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
-        areas_picked(s) = randn * area_std(s) + area_means(s);
+        areas_picked(s) = randn * boot_area_std(pickindex) + boot_area_means(pickindex);
 
     end
     conservation = areas_picked \ letters_picked;
@@ -102,7 +119,9 @@ histogram(r2_to_save)
 xlabel('r2')
 set(gca,'Fontsize',20)
 ylim([0 nboots/10])
-
+hold on
+plot([median(r2_to_save) median(r2_to_save)],[0 yy(2)],'linewidth',2)
+text(median(r2_to_save)+0.15*median(r2_to_save),yy(2) - 0.2*yy(2),sprintf('mean \\itr\\rm =%.2f',median(r2_to_save)),'FontSize',20)
 subplot(2,2,3)
 histogram(phi_to_save)
 xlabel('phi zero')
