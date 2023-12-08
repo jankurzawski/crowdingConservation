@@ -1,4 +1,4 @@
-function [bouma, area] = load_from_raw(surfaceType)
+function [bouma, area] = load_from_raw(surfaceType,two_sess)
 
 
 % this function prepares data for analysis and plotting. It loads the
@@ -25,8 +25,12 @@ for o = 1 : length(u_obs)
     end
 end
 
-bouma       = mean(bouma_sess);
+if two_sess
+    bouma       = bouma_sess;
+else
+    bouma       = mean(bouma_sess);
 
+end
 
 %%
 if ~exist('surfaceType', 'var') || isempty(surfaceType), surfaceType = 'midgray'; end
@@ -39,7 +43,13 @@ researcher2 = load_surface('./data/surfaceData',surfaceType,'R2',hemi);
 
 r1          = sum(researcher1, 3);   % sum across hemispheres
 r2          = sum(researcher2, 3);   % sum across hemispheres
-area        =  (r1+r2)/2;            % average across researchers
+if two_sess
 
-bouma       = bouma';
-area        = area';
+area(1,:) = r1(4,:);
+area(2,:) = r2(4,:);
+
+else
+area        =  (r1+r2)/2;  
+end
+% average across researchers
+
