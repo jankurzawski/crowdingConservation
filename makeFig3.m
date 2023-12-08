@@ -189,10 +189,12 @@ hgexport(gcf, sprintf('./figures/variance_expl.eps'));
 
 function [fitresults] = give_a_b_r(data)
 
-lm = fitlm(data(:,1),data(:,2));
-conservation = data(:,1) \ data(:,2);
-pred = data(:,1) .* conservation;
-r2 = R2(data(:,2),pred);
+area = data(:,1);
+letters = data(:,2);
+lm = fitlm(area,letters);
+conservation = area \ letters;
+pred = area .* conservation;
+r2 = R2(letters,pred);
 fitresults = [lm.Coefficients.Estimate(1) lm.Coefficients.Estimate(2) r2 length(unique(data(:,1)))];
 
 end
