@@ -8,8 +8,8 @@ addpath(genpath('data'))
 addpath(genpath('code'))
 addpath(genpath('extra'))
 
-factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
-% factors_to_boot = {'within_subjects'};
+% factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
+factors_to_boot = {'within_subjects'};
 
 ecc_max = 10;
 ecc_min = 0;
@@ -76,15 +76,28 @@ for x = 1 : nboots
 
     
         if contains('across_subjects',factors_to_boot)
-            pickindex = choose(1:length(bouma_means));
+            vector = (1:length(bouma_means));
+            pickindex = vector(randi(length(vector)));
         else
             pickindex = s;
         end
 
         if contains('within_subjects',factors_to_boot)
-            B = randn .* bouma_std(pickindex) + bouma_means(pickindex);
-        else
-            B = bouma_means(pickindex);
+
+            mycond = randperm(3);
+            mycond = mycond(1);
+
+            if mycond == 1
+
+                B = bouma(1,pickindex);
+            elseif mycond == 2
+                B = bouma(2,pickindex);
+
+            elseif mycond == 3
+                
+                B = bouma_means(pickindex);
+
+            end
         end
 
         letters_picked(s)  = 2*pi ./ (B ./ sqrt(alpha)).^2 * ...
@@ -92,9 +105,24 @@ for x = 1 : nboots
             ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
 
         if contains('within_subjects',factors_to_boot)
-            areas_picked(s) = randn * area_std(pickindex) + area_means(pickindex);
-        else
-            areas_picked(s) = area_means(pickindex);
+           
+            mycond = randperm(3);
+            mycond = mycond(1);
+
+             if mycond == 1
+
+                areas_picked(s) = area(1,pickindex);
+
+            elseif mycond == 2
+
+                areas_picked(s) = area(2,pickindex);
+
+            elseif mycond == 3
+                areas_picked(s) = area_means(pickindex);
+
+             end
+
+
         end
 
     end
@@ -147,7 +175,7 @@ set(gcf,'Position',[510   386   797   631])
 
 
 
-CI_range = 68;
+CI_range = 95;
 low_prct_range = (100-CI_range)/2;
 high_prct_range = 100-low_prct_range;
 
