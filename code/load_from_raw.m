@@ -6,15 +6,20 @@ function [bouma, area] = load_from_raw(surfaceType,two_sess,myrange)
 % Using load_surface it calculates surface area of visual maps from a
 % specified surface (white, midgray, pial) and sums across hemispheres.
 
+% if two_sess == 3, output all bouma factors per observer
 
 if ~exist('surfaceType', 'var') || isempty(surfaceType), surfaceType = 'midgray'; end
 if ~exist('two_sess', 'var') || isempty(two_sess), two_sess = 0; end
+if ~exist('myrange', 'var') || isempty(myrange), myrange = [0 10]; end
 
 
 [datatable] = load_crowding('./data/crowdingData');
 u_ses       = unique(datatable.Session);
 u_obs       = unique(datatable.Observer);
 bouma_sess  = NaN(length(u_ses),length(u_obs));
+u_ecc       = unique(datatable.RadialEccen);
+u_mer       = unique(datatable.Meridian)
+all_bouma   = NaN(length(u_ses),length(u_obs),length(u_ecc)*length(u_mer));
 
 assert(length(u_obs) == 49);
 assert(sum(datatable.Session == 1) == sum(datatable.Session == 2));
