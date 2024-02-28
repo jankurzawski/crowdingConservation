@@ -8,8 +8,8 @@ addpath(genpath('data'))
 addpath(genpath('code'))
 addpath(genpath('extra'))
 
-% factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
-factors_to_boot = {'within_subjects'};
+factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
+% factors_to_boot = {'across_subjects'};
 
 ecc_max = 10;
 ecc_min = 0;
@@ -94,10 +94,13 @@ for x = 1 : nboots
                 B = bouma(2,pickindex);
 
             elseif mycond == 3
-                
+
                 B = bouma_means(pickindex);
 
             end
+
+        else
+             B = bouma_means(pickindex);
         end
 
         letters_picked(s)  = 2*pi ./ (B ./ sqrt(alpha)).^2 * ...
@@ -121,6 +124,8 @@ for x = 1 : nboots
                 areas_picked(s) = area_means(pickindex);
 
              end
+        else
+                areas_picked(s) = area_means(pickindex);
 
 
         end

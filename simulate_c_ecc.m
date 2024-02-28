@@ -41,8 +41,8 @@ for e = 1 : size(eccs,1)
     ecc_min = eccs(e,1);
 
 
-%     factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
-        factors_to_boot = {'within_subjects'};
+    %     factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
+    %         factors_to_boot = {'within_subjects'};
 
 
     load_two_sessions = 1;
@@ -64,7 +64,7 @@ for e = 1 : size(eccs,1)
 
     %%
 
-    nboots = 10000;
+    nboots = 1000;
 
     conservation_to_save = NaN(1,nboots);
     r2_to_save = NaN(1,nboots);
@@ -103,9 +103,6 @@ for e = 1 : size(eccs,1)
             ecc_0   = randn * phi_std + phi_mean;
         end
 
-
-
-
         for s = 1 : n_obs
 
             if contains('across_subjects',factors_to_boot)
@@ -123,7 +120,9 @@ for e = 1 : size(eccs,1)
                 if mycond == 1
 
                     B = bouma(1,pickindex);
+
                 elseif mycond == 2
+
                     B = bouma(2,pickindex);
 
                 elseif mycond == 3
@@ -132,9 +131,19 @@ for e = 1 : size(eccs,1)
 
                 end
 
+            else
+
+                B = bouma_means(pickindex);
+
+            end
+            
                 letters_picked(s)  = 2*pi ./ B.^2 * ...
                     (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
                     ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
+
+            
+
+            if contains('within_subjects',factors_to_boot)
 
                 mycond = randperm(3);
                 mycond = mycond(1);
@@ -151,36 +160,39 @@ for e = 1 : size(eccs,1)
                     areas_picked(s) = area_means(pickindex);
 
                 end
-
+            else
+                areas_picked(s) = area_means(pickindex);
             end
+
         end
-        conservation = areas_picked \ letters_picked;
-        % find number of letters preficted by conservation
-        pred = areas_picked .* conservation;
-        % find how much variance is explained by conservation
-        r2 = R2(letters_picked, pred);
+    
+    conservation = areas_picked \ letters_picked;
+    % find number of letters preficted by conservation
+    pred = areas_picked .* conservation;
+    % find how much variance is explained by conservation
+    r2 = R2(letters_picked, pred);
 
-        conservation_to_save(x) = 1/sqrt(conservation);
-        alpha_to_save(x) = alpha;
-        phi_to_save(x) = ecc_0;
-        r2_to_save(x) = r2;
+    conservation_to_save(x) = 1/sqrt(conservation);
+    alpha_to_save(x) = alpha;
+    phi_to_save(x) = ecc_0;
+    r2_to_save(x) = r2;
 
-    end
-
-
-    CI_c=prctile(conservation_to_save, [low_prct_range, high_prct_range]);
-    CI_r=prctile(r2_to_save, [low_prct_range, high_prct_range]);
+end
 
 
+CI_c=prctile(conservation_to_save, [low_prct_range, high_prct_range]);
+CI_r=prctile(r2_to_save, [low_prct_range, high_prct_range]);
 
-    c_boot_mean(e) = median(conservation_to_save);
-    c_boot_ci(e,:) = abs(CI_c - median(conservation_to_save));
 
 
-    r2_boot_mean(e) = median(r2_to_save);
-    r2_boot_ci(e,:) = abs(CI_r - median(r2_to_save));
+c_boot_mean(e) = median(conservation_to_save);
+c_boot_ci(e,:) = abs(CI_c - median(conservation_to_save));
 
-    leg{e} = sprintf('[%i-%i deg]',ecc_min,ecc_max)
+
+r2_boot_mean(e) = median(r2_to_save);
+r2_boot_ci(e,:) = abs(CI_r - median(r2_to_save));
+
+leg{e} = sprintf('[%i-%i deg]',ecc_min,ecc_max)
 
 
 end
