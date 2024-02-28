@@ -18,7 +18,7 @@ u_ses       = unique(datatable.Session);
 u_obs       = unique(datatable.Observer);
 bouma_sess  = NaN(length(u_ses),length(u_obs));
 u_ecc       = unique(datatable.RadialEccen);
-u_mer       = unique(datatable.Meridian)
+u_mer       = unique(datatable.Meridian);
 all_bouma   = NaN(length(u_ses),length(u_obs),length(u_ecc)*length(u_mer));
 
 assert(length(u_obs) == 49);
