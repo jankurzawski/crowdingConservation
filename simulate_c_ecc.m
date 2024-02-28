@@ -41,7 +41,7 @@ for e = 1 : size(eccs,1)
     ecc_min = eccs(e,1);
 
 
-    %     factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
+        factors_to_boot = {'across_subjects';'within_subjects';'alpha';'phi0'};
     %         factors_to_boot = {'within_subjects'};
 
 
@@ -134,12 +134,11 @@ for e = 1 : size(eccs,1)
             else
 
                 B = bouma_means(pickindex);
-
-                  letters_picked(s)  = 2*pi ./ (B ./ sqrt(alpha)).^2 * ...
-            (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
-            ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
             end
 
+            letters_picked(s)  = 2*pi ./ (B ./ sqrt(alpha)).^2 * ...
+                (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
+                ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
                
 
             

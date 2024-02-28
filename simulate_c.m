@@ -37,7 +37,7 @@ areas_picked = NaN(length(bouma_means),1);
 
 %%
 
-nboots = 10000;
+nboots = 1000;
 
 conservation_to_save = NaN(1,nboots);
 r2_to_save = NaN(1,nboots);
@@ -86,11 +86,13 @@ for x = 1 : nboots
 
             mycond = randperm(3);
             mycond = mycond(1);
-
+            bigcond1(x) = mycond;
             if mycond == 1
 
                 B = bouma(1,pickindex);
+
             elseif mycond == 2
+                
                 B = bouma(2,pickindex);
 
             elseif mycond == 3
@@ -111,6 +113,7 @@ for x = 1 : nboots
            
             mycond = randperm(3);
             mycond = mycond(1);
+            bigcond2(x) = mycond;
 
              if mycond == 1
 
