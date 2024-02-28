@@ -32,7 +32,6 @@ for ee = 1:10
 end
 
 eccs = cat(1,eccs2,eccs1);
-% eccs = [0 10]
 
 for e = 1 : size(eccs,1)
 
@@ -207,7 +206,7 @@ xticklabels(leg)
 hold on
 s =plot(xlim,[1.36 1.36],'--')
 legend(s,'Our estimate')
-
+ylabel('c [mm]')
 xtickangle(90)
 
 subplot(1,2,2)
@@ -218,6 +217,7 @@ hold on
 s =plot(xlim,[0.4 0.4],'--')
 legend(s,'Our estimate')
 xtickangle(90)
+ylabel('R^2')
 
 function out_R2 = R2(data, pred)
 % formula for coefficient of variation, R2, which ranges from -inf to 1
