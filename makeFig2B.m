@@ -43,13 +43,13 @@ function [h] = addlines(r)
     
     [x,y] = pol2cart(th,2);
     [th1, r1] = cart2pol(x+xc, y+yc);
-    h = polarplot(th,r+zeros(size(th)),'Color',[0 0 0 0.15],'LineStyle',':','LineWidth',2);
-    h = polarplot(th1,r1+zeros(size(th)),'Color',[0 0 0 0.15],'LineStyle',':','LineWidth',2);
-
-    % add wedge outline
+%     h = polarplot(th,r+zeros(size(th)),'Color',[0 0 0 0.15],'LineStyle',':','LineWidth',2);
+%     h = polarplot(th1,r1+zeros(size(th)),'Color',[0 0 0 0.15],'LineStyle',':','LineWidth',2);
+% 
+%     % add wedge outline
 %     polarplot([deg2rad(45) deg2rad(45)],[0 10],'Color',[0 0 0 0.15],'LineStyle',':','LineWidth',2)
 %     polarplot([deg2rad(-45) deg2rad(-45)],[0 10],'Color',[0 0 0 0.15],'LineStyle',':','LineWidth',2)
-    
+%     
     % add fixation
     polarplot([deg2rad(0) deg2rad(0)],[-0.5 0.5],'Color',[0 0 0],'LineStyle','-','LineWidth',2)
     polarplot([deg2rad(90) deg2rad(90)],[-0.5 0.5],'Color',[0 0 0],'LineStyle','-','LineWidth',2)
