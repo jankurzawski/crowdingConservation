@@ -32,7 +32,7 @@ for ee = 1:10
 end
 
 eccs = cat(1,eccs2,eccs1);
-
+% eccs = [0 10]
 
 for e = 1 : size(eccs,1)
 
@@ -135,11 +135,12 @@ for e = 1 : size(eccs,1)
 
                 B = bouma_means(pickindex);
 
+                  letters_picked(s)  = 2*pi ./ (B ./ sqrt(alpha)).^2 * ...
+            (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
+            ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
             end
-            
-                letters_picked(s)  = 2*pi ./ B.^2 * ...
-                    (log(ecc_0+ecc_max) - log(ecc_0+ecc_min) - ...
-                    ecc_0 * (ecc_max-ecc_min) / ((ecc_0+ecc_max)*(ecc_0+ecc_min)));
+
+               
 
             
 
