@@ -26,7 +26,7 @@ for o = 1 : length(u_obs)
         sel = contains(datatable.Observer,u_obs{o}) & datatable.Session == s;
         bouma_factors = datatable.CrowdingDistance(sel) ./ datatable.RadialEccen(sel);
         bouma_sess(s,o) = geomean(bouma_factors);
-
+        all_bouma(s,o,:) = bouma_factors;
     end
 end
 
@@ -49,15 +49,19 @@ researcher2 = load_surface('./data/surfaceData',surfaceType,'R2',hemi,myrange);
 r1          = sum(researcher1, 3);   % sum across hemispheres
 r2          = sum(researcher2, 3);   % sum across hemispheres
 
-if two_sess
+if two_sess == 1
     
     area(1,:,:) = r1;
     area(2,:,:) = r2;
     
-else
+elseif two_sess == 0
     area        =  (r1+r2)/2;
     area = area';
     bouma = bouma';
+
+elseif two_sess == 3
+    bouma = all_bouma;
+    area = NaN;
 end
 % average across researchers
 
