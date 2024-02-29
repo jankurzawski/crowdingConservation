@@ -21,10 +21,16 @@ load mycmap
 % number of bootstraps for calculating CIs
 nboot = 1000;
 % load data
-two_sess = 0;
+two_sess = 1;
 [bouma, area] = load_from_raw('midgray',two_sess,[0 10]);
+
+boumas = bouma';
+areas = area;
+
+bouma = mean(bouma);
+area = squeeze(mean(areas))';
 % compute number of lettrs from bouma
-l = zeros(size(bouma));
+l = zeros(size(bouma))';
 
 for i = 1 : length(bouma)
     analytic = crowding_count_letters(bouma(i),0.24,10,0);
@@ -51,6 +57,7 @@ for ii = 1:length(ROIs)
     nexttile
     
     area_roi = area(:,ii);
+    areas_roi = squeeze(areas(:,ii,:))';
     % find slope of conservation (0 intercept)
     conservation = area_roi \ l;
     % find number of letters preficted by conservation
@@ -67,7 +74,7 @@ for ii = 1:length(ROIs)
     m = lm.Coefficients.Estimate(2); % save slope of the fit as m
     lmpred = lm.Coefficients.Estimate(1)+ lm.Coefficients.Estimate(2)*xl;
     
-    data = [area_roi l];
+    data = [area_roi areas_roi bouma' boumas];
     fitresult_ls = bootstrp(nboot,@give_a_b_r,data);
     
     
@@ -162,13 +169,14 @@ subplot(2,2,4)
 xs = [1 2 3 4];
 CI_r2_vals=prctile(CI_r2, [low_prct_range, high_prct_range]);
 CI_r2_toplot = abs(CI_r2_vals - median(CI_r2_vals));
+CI_r2_median = median(CI_r2_vals);
 
 for r = 1 : 4
     
     color = mean(mycmap{r});
     hold on
-    b =  bar(xs(r), myr2(r),'FaceColor',[0 0 0],'Edgecolor',[0 0 0],'LineWidth',2);
-    er = errorbar(xs(r), myr2(r),CI_r2_toplot(1,r),CI_r2_toplot(2,r),'linestyle','--','Color',[0.5 0.5 0.5],'LineWidth',4,'CapSize',0);
+    b =  bar(xs(r), CI_r2_median(r),'FaceColor',[0 0 0],'Edgecolor',[0 0 0],'LineWidth',2);
+    er = errorbar(xs(r), CI_r2_median(r),CI_r2_toplot(1,r),CI_r2_toplot(2,r),'linestyle','--','Color',[0.5 0.5 0.5],'LineWidth',4,'CapSize',0);
     
 end
 
@@ -190,8 +198,16 @@ hgexport(gcf, sprintf('./figures/variance_expl.eps'));
 
 function [fitresults] = give_a_b_r(data)
 
-area = data(:,1);
-letters = data(:,2);
+mycond = randi([1, 3]);
+area = data(:,mycond);
+
+mycond = randi([4, 6]);
+letters = zeros(size(data,1),1);
+
+for b = 1 : size(data,1)
+letters(b) = crowding_count_letters(data(b,mycond),0.24,10,0);
+end
+
 lm = fitlm(area,letters);
 conservation = area \ letters;
 pred = area .* conservation;
