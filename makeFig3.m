@@ -10,6 +10,7 @@ clc
 clear
 close all
 
+load subjects_ID.mat
 [directory,~] = fileparts(mfilename('fullpath'));
 cd(directory);
 addpath(genpath('data'))
@@ -22,15 +23,9 @@ load mycmap
 nboot = 1000;
 % load data
 two_sess = 1;
-[bouma, area] = load_from_raw('midgray',two_sess,[0 10]);
+[bouma, area] = load_from_raw('midgray',0,[0 10]);
 
-boumas = bouma';
-areas = area;
-
-bouma = mean(bouma);
-area = squeeze(mean(areas))';
-% compute number of lettrs from bouma
-l = zeros(size(bouma))';
+l = zeros(size(bouma));
 
 for i = 1 : length(bouma)
     analytic = crowding_count_letters(bouma(i),0.24,10,0);
@@ -57,59 +52,57 @@ for ii = 1:length(ROIs)
     nexttile
     
     area_roi = area(:,ii);
-    areas_roi = squeeze(areas(:,ii,:))';
     % find slope of conservation (0 intercept)
-    conservation = area_roi \ l;
-    % find number of letters preficted by conservation
-    pred = area_roi .* conservation;
-    % find how much variance is explained by conservation
-    r2 = R2(l, pred);
-    myr2(ii) = r2;
-    
-    
+%     conservation = area_roi \ l;
+%     % find number of letters preficted by conservation
+%     pred = area_roi .* conservation;
+%     % find how much variance is explained by conservation
+%     r2 = R2(l, pred);
+%     myr2(ii) = r2;
+%     
+%     
     xl = [0 max(area_roi)*1.05];
     yl = [0 max(l)*1.05];
-    
-    lm = fitlm(area_roi,l);
-    m = lm.Coefficients.Estimate(2); % save slope of the fit as m
-    lmpred = lm.Coefficients.Estimate(1)+ lm.Coefficients.Estimate(2)*xl;
-    
-    data = [area_roi areas_roi bouma' boumas];
+%     
+%     lm = fitlm(area_roi,l);
+%     m = lm.Coefficients.Estimate(2); 
+
+    data(:,1) = area_roi;
+    data(:,2) = l;
     fitresult_ls = bootstrp(nboot,@give_a_b_r,data);
-    
+    lmpred = nanmedian(fitresult_ls(:,1))+ nanmean(fitresult_ls(:,2))*xl;
+    conservation = nanmedian(fitresult_ls(:,5));
     
     CI_a=prctile(fitresult_ls(:,2), [low_prct_range, high_prct_range]);
+    CI_k=prctile(fitresult_ls(:,5), [low_prct_range, high_prct_range]);
     CI_b=prctile(fitresult_ls(:,1), [low_prct_range, high_prct_range]);
     CI_r2(:,ii)=fitresult_ls(:,3);
-    
-    
-    X = linspace(min(area_roi),max(area_roi),100);
-    y = zeros(100,nboot);
-    
-    for i = 1:nboot
-        
-        y(:,i)=fitresult_ls(i,2)*X + fitresult_ls(i,1);
-        
-    end
-    
-    
-    CI_y=prctile(y, [low_prct_range, high_prct_range],2);
+
     
     set(gca, 'FontSize', 15)
-    fprintf('V%d : R^2=%3.2f,\t conservation = %3.2f letters/mm^2,\tm = %.2f letters/mm^2\n', ii, r2, conservation,m)
+    fprintf('|-------------V%i--------------|\n',ii);
+    fprintf('  k   = %.2f [%.2f %.2f]\n',median(fitresult_ls(:,5)),(CI_k));
+    fprintf('  b   = %.2f [%.2f %.2f]\n',median(fitresult_ls(:,1)),CI_b);
+    fprintf('  R^2 = %.2f [%.2f %.2f]\n',median(fitresult_ls(:,3)),prctile(fitresult_ls(:,3), [low_prct_range, high_prct_range]));
+    fprintf('  c   = %.2f [%.2f %.2f]\n',sqrt(1/median(fitresult_ls(:,5))),fliplr(1./sqrt(CI_k)));
+    fprintf('|-----------------------------|\n\n');
+
+    
     
     axis([xl yl])
     
     hold on,
     plot(xl, conservation * xl, 'k--', 'LineWidth', 1)
     plot(xl, lmpred, '-', 'Color', mycmap{ii}(2,:), 'LineWidth', 3);
-    plot(X,CI_y,'--','linewidth',2,'Color', mean(mycmap{ii}))
+    
     g = gca;
     g.XAxis.LineWidth = 1;
     g.YAxis.LineWidth = 1;
 
     
     s = scatter(area_roi, l,  'MarkerFaceColor',mycmap{ii}(2,:), 'MarkerEdgeColor', 'k');
+    
+
     s.MarkerFaceAlpha = 1;
     s.MarkerEdgeColor = mycmap{ii}(2,:);
     s.SizeData = 20;
@@ -121,11 +114,27 @@ for ii = 1:length(ROIs)
     s.MarkerEdgeColor = mycmap{ii}(2,:);
     s.SizeData = 20;
     
-    hold off
     t=title(ROIs{ii});
     t.Units = 'normalized';
     t.Position = [0.2 0.85 0];
     myx = xlim;
+    
+    
+    X = linspace(myx(1),myx(2),100);
+    y = zeros(100,nboot);
+    
+    for i = 1:nboot
+        
+        y(:,i)=fitresult_ls(i,2)*X + fitresult_ls(i,1);
+        
+    end
+    
+    
+    CI_y=prctile(y, [low_prct_range, high_prct_range],2);
+    plot(X,CI_y,'--','linewidth',2,'Color', mean(mycmap{ii}))
+    hold off
+
+    
     
     if ii == 4
         text(min(area_roi)+0.03*myx(2),100,sprintf('\\rm\\itc\\rm = %.1f mm',round(1/sqrt(conservation),2)),'FontSize',20,'FontWeight','bold','horizontalalignment','left','Color',[0 0 0])
@@ -176,12 +185,12 @@ for r = 1 : 4
     color = mean(mycmap{r});
     hold on
     b =  bar(xs(r), CI_r2_median(r),'FaceColor',[0 0 0],'Edgecolor',[0 0 0],'LineWidth',2);
-    er = errorbar(xs(r), CI_r2_median(r),CI_r2_toplot(1,r),CI_r2_toplot(2,r),'linestyle','--','Color',[0.5 0.5 0.5],'LineWidth',4,'CapSize',0);
+    er = errorbar(xs(r), CI_r2_median(r),CI_r2_toplot(1,r),CI_r2_toplot(2,r),'linestyle','--','Color',[0.5 0.5 0.5],'LineWidth',3,'CapSize',0);
     
 end
 
 xticks(xs)
-ylim([-0.3  0.6])
+ylim([-0.4  0.6])
 yticks([-0.2 0 0.2 0.4 0.6 0.8])
 
 xticklabels(ROIs)
@@ -198,21 +207,14 @@ hgexport(gcf, sprintf('./figures/variance_expl.eps'));
 
 function [fitresults] = give_a_b_r(data)
 
-mycond = randi([1, 3]);
-area = data(:,mycond);
-
-mycond = randi([4, 6]);
-letters = zeros(size(data,1),1);
-
-for b = 1 : size(data,1)
-letters(b) = crowding_count_letters(data(b,mycond),0.24,10,0);
-end
+area = data(:,1);
+letters = data(:,2);
 
 lm = fitlm(area,letters);
 conservation = area \ letters;
 pred = area .* conservation;
 r2 = R2(letters,pred);
-fitresults = [lm.Coefficients.Estimate(1) lm.Coefficients.Estimate(2) r2 length(unique(data(:,1)))];
+fitresults = [lm.Coefficients.Estimate(1) lm.Coefficients.Estimate(2) r2 length(unique(data(:,1))) conservation];
 
 end
 
