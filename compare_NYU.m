@@ -45,10 +45,6 @@ fs_dir = '/Volumes/server/Projects/hv4/derivatives/freesurfer/';
 s_NEI = dir(sprintf('%s/*sub*',fs_dir));
 s_NEI = {s_NEI.name};
 
-ind = contains(s_NEI,'sub-wlsubj162');
-s_NEI(ind) = [];
-ind = contains(s_NEI,'sub-wlsubj153');
-s_NEI(ind) = [];
 ind = contains(s_NEI,'sub-wlsubj115');
 s_NEI(ind) = [];
 
