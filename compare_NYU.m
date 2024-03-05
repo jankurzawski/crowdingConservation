@@ -2,7 +2,7 @@ clc
 clear
 
 
-if 1
+
 roi_dir = '/Volumes/server/Projects/Retinotopy_NYU_3T/derivatives/ROI_mgz/'
 fs_dir = '/Volumes/server/Projects/Retinotopy_NYU_3T/derivatives/freesurfer/'
 
@@ -13,17 +13,6 @@ s_NYU(ind) = [];
 ind = contains(s_NYU,'sub-wlsubj000');
 s_NYU(ind) = [];
 
-
-else
-roi_dir = '/Volumes/server/Projects/pSF_mapping/derivatives/ROI_mgz/'
-fs_dir = '/Volumes/server/Projects/pSF_mapping/derivatives/freesurfer/'
-
-
-s_NYU = dir(sprintf('%s/*sub*',fs_dir));
-s_NYU = {s_NYU.name}
-ind = contains(s_NYU,'sub-wlsubj157');
-s_NYU(ind) = [];
-end
 
 hemi = {'lh';'rh'}
 
@@ -141,47 +130,3 @@ for roi = 1 : 4
     %%
     
 end
-return
-addpath(genpath('data'))
-addpath(genpath('code'))
-addpath(genpath('extra'))
-ROIs = {'V1' 'V2' 'V3' 'hV4'};
-load mycmap
-
-
-load subjects_ID.mat
-two_sess = 0;
-[bouma, area] = load_from_raw('midgray',0,[0 10]);
-
-%%
-
-ct = 1
-for s = 1 : length(subj)
-    
-    if sum(ismember(subjects,subj{s})) == 1
-        bouma_nyu(ct) = bouma(find(ismember(subjects,subj{s})))
-        l(ct) =  crowding_count_letters(bouma_nyu(ct),0.24,10,0);
-        ct = ct + 1
-    end
-end
-
-
-conservation = v4_nyu_area' \ l';
-% find number of letters preficted by conservation
-pred = v4_nei_area' .* conservation;
-% find how much variance is explained by conservation
-r2 = R2(l, pred)
-
-
-
-
-
-function out_R2 = R2(data, pred)
-% formula for coefficient of variation, R2, which ranges from -inf to 1
-% R2 = @(data, pred) 1 - sum((pred-data).^2) / sum((data - mean(data)).^2);
-
-out_R2 = 1 - sumsqr(pred-data) / sumsqr(data - mean(data));
-
-end
-
-
