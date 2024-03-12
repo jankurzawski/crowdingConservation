@@ -1,4 +1,4 @@
-function [bouma, area] = load_from_raw(surfaceType,two_sess,myrange)
+function [bouma, area] = load_from_raw(surfaceType,two_sess)
 
 
 % this function prepares data for analysis and plotting. It loads the
@@ -47,9 +47,9 @@ end
 
 hemi        = {'lh';'rh'};
 % load ROIs from researcher 1
-researcher1 = load_surface('./data/surfaceData',surfaceType,'R1',hemi,myrange);
+researcher1 = load_surface('./data/surfaceData',surfaceType,'R1',hemi);
 % load ROIs from researcher 2
-researcher2 = load_surface('./data/surfaceData',surfaceType,'R2',hemi,myrange);
+researcher2 = load_surface('./data/surfaceData',surfaceType,'R2',hemi);
 
 r1          = sum(researcher1, 3);   % sum across hemispheres
 r2          = sum(researcher2, 3);   % sum across hemispheres

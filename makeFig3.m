@@ -10,7 +10,6 @@ clc
 clear
 close all
 
-load subjects_ID.mat
 [directory,~] = fileparts(mfilename('fullpath'));
 cd(directory);
 addpath(genpath('data'))
@@ -18,12 +17,13 @@ addpath(genpath('code'))
 addpath(genpath('extra'))
 ROIs = {'V1' 'V2' 'V3' 'hV4'};
 load mycmap
+load subjects_ID.mat
 
 % number of bootstraps for calculating CIs
 nboot = 1000;
 % load data
-two_sess = 1;
-[bouma, area] = load_from_raw('midgray',0,[0 10]);
+two_sess = 0;
+[bouma, area] = load_from_raw('midgray',two_sess);
 
 l = zeros(size(bouma));
 
