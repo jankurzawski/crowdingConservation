@@ -8,7 +8,8 @@ addpath(genpath('code'))
 addpath(genpath('extra'))
 
 load subjects_ID
-[bouma, area] = load_from_raw([],3,[]);
+two_sess = 3; % if equal 3 load get all 8 crowding thr per observer
+[bouma, area] = load_from_raw([],3);
 
 
 S_low_bouma = strcmp('sub-wlsubj045',subjects);
@@ -21,7 +22,7 @@ subj_sd    = NaN(1,2);
 for s = 1 : size(subj_mean,2);
     
     subj_data = squeeze(boumas(:,s,:));
-    subj_mean(s) = geomean(geomean(subj_data))
+    subj_mean(s) = geomean(geomean(subj_data));
     subj_sd(s) = mean(std(subj_data));
     
 end
