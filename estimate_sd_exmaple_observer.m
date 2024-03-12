@@ -8,7 +8,7 @@ addpath(genpath('code'))
 addpath(genpath('extra'))
 
 load subjects_ID
-two_sess = 3; % if equal 3 load get all 8 crowding thr per observer
+two_sess = 3; % if 3 load all 8 crowding thr per observer to estimate SD
 [bouma, area] = load_from_raw([],3);
 
 
