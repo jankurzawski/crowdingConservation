@@ -27,6 +27,10 @@ function num_letters = crowding_count_letters(B, ecc_0, ecc_max, ecc_min, B_orie
 % for forumla, see: 
 %   https://www.symbolab.com/solver/integral-calculator/%5Cint_%7Bm%7D%5E%7Bn%7D%20%5Cint_%7B0%7D%5E%7B2%5Cpi%7D%20%5Cfrac%7Br%7D%7BB%5E%7B2%7D%5Cleft(r%2B%5Cphi%5Cright)%5E%7B2%7D%7D%20d%5Ctheta%20dr?or=input
 %
+% for reduced formula, assuming ecc_max=10, ecc_min=0, alpha=2, phi0=0.24,
+%   and radial bouma factor, the function reduces to L=34.89/B^2:
+%   https://www.symbolab.com/solver/integral-calculator/2%5Cint_%7B0%7D%5E%7B10%7D%20%5Cint_%7B0%7D%5E%7B2%5Cpi%7D%20%5Cfrac%7Br%7D%7BB%5E%7B2%7D%5Cleft(r%2B0.24%5Cright)%5E%7B2%7D%7D%20d%5Ctheta%20dr?or=input
+%   
 % See also crowding_Visualize_Letters
 
 if ~exist('ecc_max', 'var') || isempty(ecc_max), ecc_max  = 10;   end
