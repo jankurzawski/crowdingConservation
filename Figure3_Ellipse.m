@@ -1,3 +1,13 @@
+clc
+clear
+close all
+
+[directory,~] = fileparts(mfilename('fullpath'));
+cd(directory);
+addpath(genpath('data'))
+addpath(genpath('code'))
+addpath(genpath('extra'))
+ROIs = {'V1' 'V2' 'V3' 'V4'};
 load mycmap
 
 two_sess = 0;
@@ -57,7 +67,7 @@ for ii = 1:4
     set(gca, 'FontSize', 16)
     set(gca, 'YTick', yt, 'YTickLabel', ytl, 'XTick', xt, 'XTickLabel', xtl);
     title(ROIs{ii})
-    xlabel('Surface Area (mm^2)')
+    xlabel('Surface area (mm^2)')
     ylabel('Number of letters \lambda')
 end
 %%
@@ -80,6 +90,8 @@ ylabel('R^2 ')
 set(gca, 'YTick', [-.2:.2:.4]);
 box off
 
+set(gcf,'Position',[   367   127   828   689])
+hgexport(gcf, sprintf('./figures/Figure3.eps'));
 
 
 function plotErrorEllipse(mu, Sigma, p, color, linespec)
