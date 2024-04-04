@@ -9,9 +9,16 @@ addpath(genpath('code'))
 addpath(genpath('extra'))
 ROIs = {'V1' 'V2' 'V3' 'V4'};
 load mycmap
+jov = 1;
 
+if jov 
+    jov = load('data/jov2021.mat');
+    area = jov.area;
+    bouma = jov.bouma;
+else
 two_sess = 0;
 [bouma, area] = load_from_raw('midgray',two_sess);
+end
 
 
 YData = crowding_count_letters(bouma,0.24,10,0);
@@ -90,8 +97,12 @@ set(gca, 'YTick', [-.2:.2:.4]);
 box off
 
 set(gcf,'Position',[   367   127   828   689])
-hgexport(gcf, sprintf('./figures/Figure3.eps'));
 
+% if jov 
+% hgexport(gcf, sprintf('./figures/Figure3_jov.eps'));
+% else
+% hgexport(gcf, sprintf('./figures/Figure3.eps'));
+% end
 
 function plotErrorEllipse(mu, Sigma, p, color, linespec)
 
