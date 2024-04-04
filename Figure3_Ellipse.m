@@ -12,7 +12,6 @@ load mycmap
 
 two_sess = 0;
 [bouma, area] = load_from_raw('midgray',two_sess);
-ROIs = {'V1' 'V2' 'V3' 'hV4'};
 
 
 YData = crowding_count_letters(bouma,0.24,10,0);
