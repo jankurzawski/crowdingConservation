@@ -43,6 +43,9 @@ function num_letters = crowding_count_letters(B, ecc_0, ecc_max, ecc_min, B_orie
 % subplot(211); plot(Bs, num_letters, 'x-'); xlabel('Bouma factor'); ylabel('Number of letters');
 % subplot(212); plot(Bs, 1./sqrt(num_letters), 'x-'); xlabel('Bouma factor'); ylabel('1/sqrt(number of letters)');
 %
+%
+% Requires MATLAB symbolic math toolbox
+%
 % See also crowding_Visualize_Letters
 
 if ~exist('ecc_max', 'var') || isempty(ecc_max), ecc_max  = 10;   end
