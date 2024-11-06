@@ -9,7 +9,7 @@ addpath(genpath('code'))
 addpath(genpath('extra'))
 ROIs = {'V1' 'V2' 'V3' 'V4'};
 load mycmap
-jov = 1;
+jov = 0;
 
 if jov 
     jov = load('data/jov2021.mat');
