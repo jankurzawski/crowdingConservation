@@ -1,3 +1,4 @@
+% code below reproduces figure 5 from the paper. 
 clc
 clear
 close all
@@ -33,7 +34,7 @@ figure (101); clf; set(gcf, 'Color', 'w')
 t=tiledlayout(2,3,"TileSpacing","compact");
 tilenums = [1 2 4 5];
 R = [];
-numboot = 500;
+numboot = 5000;
 
 plotidx = [1 2 4 5];
 for ii = 1:4
@@ -97,12 +98,6 @@ set(gca, 'YTick', [-.2:.2:.4]);
 box off
 
 set(gcf,'Position',[   367   127   828   689])
-
-% if jov 
-% hgexport(gcf, sprintf('./figures/Figure3_jov.eps'));
-% else
-% hgexport(gcf, sprintf('./figures/Figure3.eps'));
-% end
 
 function plotErrorEllipse(mu, Sigma, p, color, linespec)
 
