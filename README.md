@@ -21,7 +21,6 @@ The `data/` directory contains the following structure:
 data/
 ├── crowdingData/
 ├── surfaceData/
-├── .gitignore
 ├── jov2021.mat
 └── surface_area_data.csv
 ```
@@ -32,7 +31,7 @@ Raw fMRI data is available in BIDS format on OpenNeuro: [OpenNeuro Dataset ds005
 - **surfaceData/**: Contains V1-V4 surface area measurements.
   - `lh.R1_rois_sub-wlsubj044`: ROI (Region of Interest) data for the left hemisphere from researcher 1 (R1). There are two researchers overall.
   - `lh.surface_sub-wlsubj044_midgray`: Surface area data of the midgray surface for subject `wlsubj044`.
-- **jov2021.mat**: MATLAB data file used for analysis.
+- **jov2021.mat**: MATLAB data file used for the preliminary analysis. It can be used with `makeFig5.m`
 - **surface_area_data.csv**: CSV file with surface area data for subjects.
 
 ## Extra Functions
