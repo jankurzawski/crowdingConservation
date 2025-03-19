@@ -56,7 +56,7 @@ if ~exist('alpha', 'var')   || isempty(alpha),   alpha    = 2;    end
 if ~exist('B_orientation', 'var') || isempty(B_orientation), B_orientation = 'r';  end
 
 switch lower(B_orientation)
-    case 'r', B = B / sqrt(alpha);
+    case 'r', B = B ./ sqrt(alpha);
     case 't', B = B * sqrt(alpha);
     case 'm' % do nothing
 end
