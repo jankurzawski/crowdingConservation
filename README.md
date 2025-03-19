@@ -60,3 +60,5 @@ If you use this code, please cite the original manuscript:
 ## Contact
 For questions or issues, please contact Jan Kurzawski or open an issue on this repository.
 
+![GitHub last commit](https://img.shields.io/github/last-commit/jk619/crowdingConservation)
+![GitHub issues](https://img.shields.io/github/issues/jk619/crowdingConservation)
