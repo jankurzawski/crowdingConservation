@@ -36,4 +36,6 @@ If you use this code, please cite the original manuscript:
 
 For questions or issues, please contact Jan Kurzawski or open an issue on this repository.
 
+## Last commit
 
+![Last Commit](https://img.shields.io/github/last-commit/jk619/crowdingConservation)
