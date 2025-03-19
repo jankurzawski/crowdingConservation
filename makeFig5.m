@@ -17,8 +17,7 @@ if jov
     area = jov.area;
     bouma = jov.bouma;
 else
-two_sess = 0;
-[bouma, area] = load_from_raw('midgray',two_sess);
+[bouma, area] = load_from_raw();
 end
 
 

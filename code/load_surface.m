@@ -33,9 +33,10 @@ for h = 1 : length(hemi)
         rois = read_curv([datadir filesep researcher_rois.name]);
         
         for r = 1 : 4
-
-            surface_size(r,s,h) = sum(surface(rois == r));
             
+        
+            surface_size(r,s,h) = sum(surface(rois == r));
+            end
             
         end
     end
