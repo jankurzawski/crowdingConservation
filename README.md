@@ -66,7 +66,7 @@ For questions or issues, please contact Jan Kurzawski or open an issue on this r
 ## Poster
 
 You can view or download the poster here:
+[Download VSS 2024 Poster](https://github.com/jk619/crowdingConservation/blob/main/extra/poster2024b_compressed.pdf)
 
-[Download Poster](https://github.com/jk619/crowdingConservation/blob/main/extra/poster2024b_compressed.pdf)
 ![GitHub last commit](https://img.shields.io/github/last-commit/jk619/crowdingConservation)
 ![GitHub issues](https://img.shields.io/github/issues/jk619/crowdingConservation)
