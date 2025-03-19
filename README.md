@@ -36,7 +36,4 @@ If you use this code, please cite the original manuscript:
 
 For questions or issues, please contact Jan Kurzawski or open an issue on this repository.
 
----
-
-Feel free to update any details, like dependencies or script instructions. Let me know if you’d like to add badges, a license, or any other sections!
 
