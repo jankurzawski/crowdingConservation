@@ -63,5 +63,10 @@ If you use this code, please cite the original manuscript:
 ## Contact
 For questions or issues, please contact Jan Kurzawski or open an issue on this repository.
 
+## Poster
+
+You can view or download the poster here:
+
+[Download Poster](https://github.com/jk619/crowdingConservation/blob/main/extra/poster2024b_compressed.pdf)
 ![GitHub last commit](https://img.shields.io/github/last-commit/jk619/crowdingConservation)
 ![GitHub issues](https://img.shields.io/github/issues/jk619/crowdingConservation)
