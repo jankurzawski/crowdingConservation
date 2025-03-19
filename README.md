@@ -50,8 +50,7 @@ extra/
    ```bash
    git clone git@github.com:jk619/crowdingConservation.git
    ```
-2. Install dependencies (if required).
-3. Run the provided scripts to generate the figures.
+2. Run the provided scripts to generate the figures.
 
 ## Citation
 If you use this code, please cite the original manuscript:
