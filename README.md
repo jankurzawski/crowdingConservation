@@ -3,7 +3,7 @@
 This repository contains the code to reproduce Figures 3A, 3B, 4, and 5 from the manuscript:
 
 **Human V4 size predicts crowding distance**  
-*Jan Kurzawski, Brenda Qiu, Noah Benson, Denis Pelli, Najib Majaj, Jonathan Winawer*
+*Jan W. Kurzawski, Brenda Qiu, Noah Benson, Denis Pelli, Najib Majaj, Jonathan Winawer*
 
 ## Overview
 The code in this repository is designed to:
