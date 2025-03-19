@@ -7,7 +7,6 @@ This repository contains the code to reproduce Figures 3A, 3B, 4, and 5 from the
 
 ## Overview
 The code in this repository is designed to:
-- The repository is a Matlab standalone and doesn't require additional files or software.
 - Recreate key figures from the study.
 - Analyze the relationship between human V4 size and visual crowding distance.
 
@@ -49,11 +48,12 @@ extra/
 - **read_curv.m**: Function to read curvature data from surface files.
 
 ## How to Use
-1. Clone this repository:
+1. The repository is a Matlab standalone and doesn't require additional files or software.
+2. Clone this repository:
    ```bash
    git clone git@github.com:jk619/crowdingConservation.git
    ```
-2. Run the provided scripts to generate the figures.
+3. Run the provided scripts to generate the figures.
 
 ## Citation
 If you use this code, please cite the original manuscript:
