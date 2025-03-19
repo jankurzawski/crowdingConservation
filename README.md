@@ -1,6 +1,6 @@
 # crowdingConservation
 
-Code here reproduces Figures 2A, 2B and Figure 5 from the manuscript titled
+Code here reproduces Figures 3A, 3B, 4 and Figure 5 from the manuscript titled
  
-Conservation of cortical crowding distance across individuals in human V4 
+Human V4 size predicts crowding distance
 by Jan Kurzawski, Brenda Qiu, Denis Pelli, Jonathan Winawer
