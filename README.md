@@ -21,13 +21,26 @@ The `data/` directory contains the following structure:
 data/
 ├── crowdingData/
 ├── surfaceData/
+├── .gitignore
 ├── jov2021.mat
 └── surface_area_data.csv
 ```
 - **crowdingData/**: Contains data related to crowding measurements.
-- **surfaceData/**: Contains rois and surface area measurements from freesurfer.
-- **jov2021.mat**: datafile from preliminary experiments.
-- **surface_area_data.csv**: CSV file with surface area and crowding measrures for all subjects.
+- **surfaceData/**: Contains surface area measurements.
+- **jov2021.mat**: MATLAB data file used for analysis.
+- **surface_area_data.csv**: CSV file with surface area data for subjects.
+
+## Extra Functions
+The `extra/` directory contains additional functions used in the analysis:
+```
+extra/
+├── fread3.m
+├── mycmap.mat
+└── read_curv.m
+```
+- **fread3.m**: Function to read binary files in a specific format.
+- **mycmap.mat**: Colormap data used for visualizing results.
+- **read_curv.m**: Function to read curvature data from surface files.
 
 ## How to Use
 1. Clone this repository:
@@ -40,9 +53,12 @@ data/
 ## Citation
 If you use this code, please cite the original manuscript:
 
-> Kurzawski, J., Qiu, B., Benson, N., Pelli, D., Majaj, N., & Winawer, J. (2025). Human V4 size predicts crowding distance.
+> Kurzawski, J., Qiu, B., Benson, N., Pelli, D., Majaj, N., & Winawer, J. (Year). Human V4 size predicts crowding distance.
 
 ## Contact
 For questions or issues, please contact Jan Kurzawski or open an issue on this repository.
 
+---
+
+Feel free to update any details, like dependencies or script instructions. Let me know if you’d like to add badges, a license, or any other sections!
 
