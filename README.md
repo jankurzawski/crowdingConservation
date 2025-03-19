@@ -26,6 +26,8 @@ data/
 ├── jov2021.mat
 └── surface_area_data.csv
 ```
+Raw fMRI data is available in BIDS format on OpenNeuro: [OpenNeuro Dataset ds005639 (Version 1.0.0)](https://openneuro.org/datasets/ds005639/versions/1.0.0).
+
 - **crowdingData/**: Contains data related to crowding measurements.
   - `CriticalSpacing_sub-wlsubj044_Ecc=10_Ses=1.mat`: Contains critical spacing data for subject `wlsubj044` at an eccentricity of 10 degrees during session 1. Critical spacing refers to the minimum spacing at which targets can be distinguished without interference from neighboring stimuli.
 - **surfaceData/**: Contains V1-V4 surface area measurements.
