@@ -26,7 +26,10 @@ data/
 └── surface_area_data.csv
 ```
 - **crowdingData/**: Contains data related to crowding measurements.
+  - `CriticalSpacing_sub-wlsubj044_Ecc=10_Ses=1.mat`: Contains critical spacing data for subject `wlsubj044` at an eccentricity of 10 degrees during session 1. Critical spacing refers to the minimum spacing at which targets can be distinguished without interference from neighboring stimuli.
 - **surfaceData/**: Contains surface area measurements.
+  - `lh.R1_rois_sub-wlsubj044`: ROI (Region of Interest) data for the left hemisphere from researcher 1 (R1). There are two researchers overall.
+  - `lh.surface_sub-wlsubj044_midgray`: Surface area data of the midgray surface for subject `wlsubj044`.
 - **jov2021.mat**: MATLAB data file used for analysis.
 - **surface_area_data.csv**: CSV file with surface area data for subjects.
 
@@ -57,8 +60,4 @@ If you use this code, please cite the original manuscript:
 
 ## Contact
 For questions or issues, please contact Jan Kurzawski or open an issue on this repository.
-
----
-
-Feel free to update any details, like dependencies or script instructions. Let me know if you’d like to add badges, a license, or any other sections!
 
