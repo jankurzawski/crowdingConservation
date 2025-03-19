@@ -12,23 +12,12 @@ load mycmap
 
 % load data
 two_sess = 1;
-hemi = {'rh';'lh'};
 
-if length(hemi) == 1
-if contains(hemi,'lh')
-    meridian = {'Right'}; %Left, Right, both
-else
-    meridian = {'Left'}; %Left, Right, both
-
-end
-else
-    meridian = {'both'}
-end
-[bouma, area] = load_from_raw('midgray',two_sess,hemi,meridian);
+[bouma, area] = load_from_raw([],two_sess);
 
 lambda_one = crowding_count_letters(bouma(1,:),0.24,10,0);
 lambda_two = crowding_count_letters(bouma(2,:),0.24,10,0);
-lambda_R = corr(lambda_one',lambda_two')
+lambda_R = corr(lambda_one',lambda_two');
 figure (102); clf; set(gcf, 'Color', 'w')
 t2=tiledlayout(1,2,"TileSpacing","compact");
 
@@ -78,16 +67,12 @@ g.YAxis.Color = [0 0 0];
 g.XAxis.Color = [0 0 0];
 g.LineWidth = 1;
 box off
-if length(hemi) == 1
-ylim([0 2000])
-xlim([0 2000])
 
-else
- ylim([0 4000])
-xlim([0 4000])   
-end
+ylim([0 4000])
+xlim([0 4000])
+
 plot(xlim,ylim,'--','Color',[0 0 0])
-l=legend(h,myleg,'Location','southeast')
+l=legend(h,myleg,'Location','southeast');
 l.Position = [[0.7726 0.2669 0.2200 0.2439]]
 legend box off
 
@@ -96,9 +81,5 @@ set(gca, 'FontSize', 15)
 axis square
 
 set(gcf,'Position',[681   581   559   285])
-if length(hemi) == 1
 
-hgexport(gcf, sprintf('./figures/test_retest_%s.eps',hemi{:}));
-else
-    hgexport(gcf, sprintf('./figures/test_retest.eps'));
-end
+hgexport(gcf, sprintf('./figures/test_retest.eps'));
