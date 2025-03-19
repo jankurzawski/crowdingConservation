@@ -1,7 +1,5 @@
 clear
 
-cd ~/Dropbox/conservation_V4/NCOM/Revision/;
-
 t = readtable('surface_area_data.csv');
 
 num_subjects = size(t, 1);
@@ -57,10 +55,12 @@ for jj = 10:-1:1
 
         lambda_inferred = Bouma2lambda(Bouma);
 
-        r_sample(ii)    = corr(lambda, v4);
-        r_inferred(ii)  = corr(lambda_inferred, v4);
+        r_sample(ii)    = corr(lambda, v4); % ground truth
+        r_inferred(ii)  = corr(lambda_inferred, v4); % expected value assuming fixed lambda
         r_sample_v_inferred(ii)  = corr(lambda_inferred, lambda);
-
+        
+        c_inferred(ii) = sqrt(lambda_inferred \ v4);
+        c(ii) = sqrt(lambda \ v4);
     end
     
     r.sample(jj)    = mean(r_sample);
