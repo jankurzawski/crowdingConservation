@@ -48,7 +48,7 @@ extra/
 - **read_curv.m**: Function to read curvature data from surface files.
 
 ## How to Use
-1. The repository is a Matlab standalone and doesn't require additional files or software.
+1. This repository is a standalone MATLAB project and does not require additional files or software.
 2. Clone this repository:
    ```bash
    git clone git@github.com:jk619/crowdingConservation.git
