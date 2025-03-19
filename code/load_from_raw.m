@@ -1,4 +1,4 @@
-function [bouma, area] = load_from_raw(surfaceType,two_sess)
+function [bouma, area] = load_from_raw(surfaceType,two_sess,hemi,meridian)
 
 
 % this function prepares data for analysis and plotting. It loads the
@@ -10,7 +10,8 @@ function [bouma, area] = load_from_raw(surfaceType,two_sess)
 
 if ~exist('surfaceType', 'var') || isempty(surfaceType), surfaceType = 'midgray'; end
 if ~exist('two_sess', 'var') || isempty(two_sess), two_sess = 0; end
-if ~exist('myrange', 'var') || isempty(myrange), myrange = [0 10]; end
+if ~exist('hemi', 'var') || isempty(hemi), hemi={'lh';'rh'}; end
+if ~exist('meridian', 'var') || isempty(hemi), meridian='both'; end
 
 
 [datatable] = load_crowding('./data/crowdingData');
@@ -27,25 +28,30 @@ assert(sum(datatable.Session == 1) == sum(datatable.Session == 2));
 for o = 1 : length(u_obs)
 
     for s = 1 : length(u_ses)
+        
+        if ~contains(meridian,'both')
+            
+            sel = contains(datatable.Observer,u_obs{o}) & datatable.Session == s & contains(datatable.Meridian,meridian);
+        else
+            sel = contains(datatable.Observer,u_obs{o}) & datatable.Session == s;
 
-        sel = contains(datatable.Observer,u_obs{o}) & datatable.Session == s;
+        end
         bouma_factors = datatable.CrowdingDistance(sel) ./ datatable.RadialEccen(sel);
         bouma_sess(s,o) = geomean(bouma_factors);
-        all_bouma(s,o,:) = bouma_factors;
+        % all_bouma(s,o,:) = bouma_factors;
     end
 end
 
 if two_sess
     bouma       = bouma_sess;
 else
-    bouma       = mean(bouma_sess);
+    bouma       = geomean(bouma_sess);
 
 end
 
 %%
 
 
-hemi        = {'lh';'rh'};
 % load ROIs from researcher 1
 researcher1 = load_surface('./data/surfaceData',surfaceType,'R1',hemi);
 % load ROIs from researcher 2
