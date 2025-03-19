@@ -7,6 +7,7 @@ This repository contains the code to reproduce Figures 3A, 3B, 4, and 5 from the
 
 ## Overview
 The code in this repository is designed to:
+- The repository is a Matlab standalone and doesn't require additional files or software.
 - Recreate key figures from the study.
 - Analyze the relationship between human V4 size and visual crowding distance.
 
