@@ -85,7 +85,7 @@ for o = 1 : length(obs)
 
 end
 
-ssssss
+
 function [h] = plotrings(mycmap)
 ct = 1;
 for ri = [5 10]
