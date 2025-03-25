@@ -58,8 +58,8 @@ for o = 1 : length(obs)
     end
     axis image
 
-    text(sqrt(5),5,'5º')
-    text(sqrt(10),10,'10º')
+    text(sqrt(5),5,'5ï¿½')
+    text(sqrt(10),10,'10ï¿½')
     
     
     hh = plotrings(cmap(1,:));
